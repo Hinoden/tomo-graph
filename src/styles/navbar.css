@@ -1,0 +1,38 @@
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.left-container {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background-color: #ffec02;
+    padding: 10px 20px;
+    border-radius: 50px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-title {
+    padding: 0px;
+    margin: 0px;
+    font-family: 'TomoFont', sans-serif;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+    padding: 10px 10px;
+    border-radius: 10px;
+}
+
+.zoom-in-button:hover, .zoom-out-button:hover {
+    cursor: pointer;
+    background-color: rgb(212, 209, 19);
+}
+
+.undo-button:hover, .redo-button:hover, .reset-button:hover, .screenshot-button:hover {
+    cursor: pointer;
+    background-color: rgb(190, 190, 190);
+}

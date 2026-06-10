@@ -1,0 +1,7 @@
+/* Tomodachi Font */
+@font-face {
+  font-family: 'TomoFont';
+  src: url('./styles/fonts/DreamLife-V1.0.0_by_MaxiGamer.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}

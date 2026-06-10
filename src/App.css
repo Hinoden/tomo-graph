@@ -9,4 +9,19 @@ body {
     linear-gradient(90deg, #d3d3d3 1px, transparent 1px);
 
   background-size: 25px 25px;
+
+  font-family: 'TomoFont', sans-serif;
+}
+
+.board {
+  width: 100vw;
+  height: 100vh;
+}
+
+.page {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 1000;
 }
