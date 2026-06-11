@@ -30,8 +30,24 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
     };
 
     const handleSubmit = () => {
+        if (!name || !icon || !color) {
+            alert('Please fill out all fields to add a Mii.');
+            return;
+        }
+
         addMii(name, icon, color);
+        resetForm();
     }
+
+    const resetForm = () => {
+        setName('');
+        setIcon(null);
+        setColor('');
+        
+        setSelectedIcon(null);
+        setSelectedColor(null);
+        setSelectedMiis([]);
+    };
 
   return (
     <div className="menu-container">
@@ -197,7 +213,7 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                 </div>
                 <div className="button-menu">
                     <button className="add-button" onClick={handleSubmit}>Add Mii</button>
-                    <button className="close-button" onClick={() => setActiveMenu(null)}>Done</button>
+                    <button className="close-button" onClick={() => {resetForm(); setActiveMenu(null)}}>Done</button>
                 </div>
             </div>}
 
@@ -231,7 +247,7 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                 </div>
                 <div className="button-menu">
                     <button className="delete-button" onClick={() => {deleteMiis(selectedMiis); setSelectedMiis([]);}}>Delete Selected</button>
-                    <button className="close-button" onClick={() => setActiveMenu(null)}>Done</button>
+                    <button className="close-button" onClick={() => {resetForm(); setActiveMenu(null)}}>Done</button>
                 </div>
             </div>}
       </div>
