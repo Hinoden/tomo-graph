@@ -11,7 +11,7 @@ import Face5Icon from '@mui/icons-material/Face5';
 import Face6Icon from '@mui/icons-material/Face6';
 import '../styles/menu.css';
 
-const Menu = ({nodes, addMii}) => {
+const Menu = ({nodes, addMii, deleteMiis}) => {
     const [activeMenu, setActiveMenu] = useState(null);
 
     const [name, setName] = useState('');
@@ -20,6 +20,14 @@ const Menu = ({nodes, addMii}) => {
 
     const [selectedIcon, setSelectedIcon] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
+
+    const [selectedMiis, setSelectedMiis] = useState([]);
+
+    const toggleMiiSelection = (id) => {
+        setSelectedMiis((prev) =>
+            prev.includes(id) ? prev.filter((miiId) => miiId !== id) : [...prev, id]
+        );
+    };
 
     const handleSubmit = () => {
         addMii(name, icon, color);
@@ -34,6 +42,7 @@ const Menu = ({nodes, addMii}) => {
         <button className="delete-button" onClick={() => setActiveMenu('delete')}><PersonRemoveTwoToneIcon/><span>Delete Mii</span></button>
       </div>
       <div className="menu-content">
+
 
 {/* SEE ALL MIIS */}
         {activeMenu === 'seeAll' && 
@@ -192,14 +201,38 @@ const Menu = ({nodes, addMii}) => {
                 </div>
             </div>}
 
+
         {activeMenu === 'connect' && 
             <div className={`connect-content ${activeMenu}`}>
                 Connect Miis Content
             </div>}
 
+{/* DELETE MIIS */}
         {activeMenu === 'delete' && 
             <div className={`delete-content ${activeMenu}`}>
-                Delete Mii Content
+                <div className="menu-header">
+                    <h2>Delete Mii</h2>
+                </div>
+                <div className="mii-list">
+                    {nodes.map((node) => (
+                        <div 
+                            key={node.id} 
+                            className={`mii-card ${
+                                selectedMiis.includes(node.id) ? 'selected' : ''
+                            }`}
+                            onClick = {() => toggleMiiSelection(node.id)}
+                        >
+                            <div className="icon-background" style={{ backgroundColor: node.data.color }}>
+                                {node.data.icon}
+                            </div>
+                            {node.data.label}
+                        </div>
+                    ))}
+                </div>
+                <div className="button-menu">
+                    <button className="delete-button" onClick={() => {deleteMiis(selectedMiis); setSelectedMiis([]);}}>Delete Selected</button>
+                    <button className="close-button" onClick={() => setActiveMenu(null)}>Done</button>
+                </div>
             </div>}
       </div>
     </div>

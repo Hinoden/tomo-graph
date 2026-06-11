@@ -45,7 +45,7 @@
     padding: 4px 0 0 0;
 }
 
-.seeAll-button:hover,.add-button:hover, .connect-button:hover, .delete-button:hover {
+.seeAll-button:hover, .add-button:hover, .connect-button:hover, .delete-button:hover {
     cursor: pointer;
     background-color: rgb(255, 234, 0);
 }
@@ -86,7 +86,7 @@
 }
 
 .delete-content.delete {
-    background-color: #db281c;
+    background-color: #d46760;
 }
 
 .seeAll-content .close-button {
@@ -97,12 +97,12 @@
     margin-bottom: 20px;
 }
 
-.seeAll-content .close-button:hover, .add-content .close-button:hover, .add-content .add-button:hover {
+.seeAll-content .close-button:hover, .add-content .close-button:hover, .add-content .add-button:hover, .delete-content .close-button:hover, .delete-content .delete-button:hover {
     cursor: pointer;
     background-color: rgb(255, 234, 0);
 }
 
-.add-content .close-button, .add-content .add-button {
+.add-content .close-button, .add-content .add-button, .delete-content .close-button, .delete-content .delete-button {
     margin-top: auto;
     font-family: tomofont, sans-serif;
     font-size: 16px;
@@ -230,7 +230,13 @@
 }
 
 .button-menu {
+    margin-top: auto;
     display: flex;
     gap: 10px;
     padding: 10px;
+}
+
+.mii-card.selected {
+    background-color: rgb(255, 234, 0);
+    border: 3px solid rgb(255, 183, 0);
 }

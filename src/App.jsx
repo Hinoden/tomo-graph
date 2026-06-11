@@ -35,8 +35,8 @@ const addMii = (name, icon, color) => {
   const newNode = {
     id: Date.now().toString(),
     position: {
-      x: Math.random() * 500,
-      y: Math.random() * 500
+      x: 0,
+      y: 0
     },
     data: {
       label: name,
@@ -48,13 +48,17 @@ const addMii = (name, icon, color) => {
   setNodes((prevNodes) => [...prevNodes, newNode]);
 }
 
+const deleteMiis = (ids) => {
+  setNodes((nodes) => nodes.filter((node) => !ids.includes(node.id)));
+};
+
 const edges = [];   //the connections between the miis
 
   return (
     <div style={{ width: '100vw', height: '100vh'}}>
       <div className="page">
         <Navbar />
-        <Menu nodes={nodes} addMii={addMii}/>
+        <Menu nodes={nodes} addMii={addMii} deleteMiis={deleteMiis}/>
       </div>
       <div className="board">
         <ReactFlow
