@@ -1,0 +1,131 @@
+.menu-buttons {
+    position: fixed;
+
+    left: 20px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.seeAll-button, .add-button, .connect-button, .delete-button {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    font-family: tomofont, sans-serif;
+    font-size: 16px;
+    gap: 8px;
+}
+
+.seeAll-button {
+    background-color: #fe0000;
+}
+
+.add-button {
+    background-color: rgb(255, 183, 0);
+}
+
+.connect-button {
+    background-color: #06acdc;
+}
+
+.delete-button {
+    background-color: #db281c;
+}
+
+.seeAll-button span,
+.add-button span,
+.connect-button span,
+.delete-button span {
+    margin: 0;
+    padding: 4px 0 0 0;
+}
+
+.seeAll-button:hover,.add-button:hover, .connect-button:hover, .delete-button:hover {
+    cursor: pointer;
+    background-color: rgb(255, 234, 0);
+}
+
+.seeAll-button svg, .add-button svg, .connect-button svg, .delete-button svg {
+    color: white;
+    padding: 0;
+    margin: 0;
+}
+
+.seeAll-content, .add-content, .connect-content, .delete-content {
+    position: fixed;
+
+    left: 20px;
+    top: 55%;
+
+    transform: translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 30vw;
+    height: 65vh;
+}
+
+.seeAll-content.seeAll {
+    background-color: #ff7373;
+}
+
+.add-content.add {
+    background-color:rgb(255, 183, 0)
+}
+
+.connect-content.connect {
+    background-color: #06acdc;
+}
+
+.delete-content.delete {
+    background-color: #db281c;
+}
+
+.seeAll-content .close-button {
+    margin-top: auto;
+    font-family: tomofont, sans-serif;
+    font-size: 16px;
+    background-color: #fe0000;
+    margin-bottom: 20px;
+}
+
+.seeAll-content .close-button:hover {
+    cursor: pointer;
+    background-color: rgb(255, 234, 0);
+}
+
+.mii-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.mii-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+}
+
+.mii-card svg {
+    font-size: 60px;
+    padding: 10px;
+}
+
+.icon-background {
+    border-radius: 50%;
+}
+
+.mii-card:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
