@@ -78,7 +78,7 @@
 }
 
 .add-content.add {
-    background-color:rgb(255, 183, 0)
+    background-color:rgb(255, 209, 93);
 }
 
 .connect-content.connect {
@@ -97,15 +97,24 @@
     margin-bottom: 20px;
 }
 
-.seeAll-content .close-button:hover {
+.seeAll-content .close-button:hover, .add-content .close-button:hover, .add-content .add-button:hover {
     cursor: pointer;
     background-color: rgb(255, 234, 0);
+}
+
+.add-content .close-button, .add-content .add-button {
+    margin-top: auto;
+    font-family: tomofont, sans-serif;
+    font-size: 16px;
+    background-color: rgb(255, 183, 0);
+    margin-bottom: 20px;
 }
 
 .mii-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    overflow-y: auto;
 }
 
 .mii-card {
@@ -128,4 +137,100 @@
 .mii-card:hover {
     cursor: pointer;
     transform: scale(1.05);
+}
+
+.add-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    overflow-y: auto;
+}
+
+.add-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#mii-name {
+    padding: 5px;
+    font-size: 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.add-color {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.color-choice {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid black;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.color-choice:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.color-choice.selected {
+    background-color: rgb(255, 234, 0);
+    border: 3px solid rgb(255, 183, 0);
+}
+
+.color-options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.add-icon {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.icon-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.icon-choice svg {
+    width: 60px;
+    height: 60px;
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.icon-choice:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.icon-choice.selected {
+    background-color: rgb(255, 234, 0);
+    border-radius: 50%;
+    border: 3px solid rgb(255, 183, 0);
+}
+
+.button-menu {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
 }
