@@ -12,7 +12,7 @@ function Navbar() {
         <div className="nav-container">
             <div className="left-container">
                 <h1 className="nav-title">TomoGraph</h1>
-                <h2 className="divider">|</h2>
+                <h2 className="divider1">|</h2>
                 <div className="zoom-controls">
                     <button className="zoom-in-button"><ZoomInIcon fontSize="large"/></button>
                     <button className="zoom-out-button"><ZoomOutIcon fontSize="large"/></button>

@@ -11,7 +11,6 @@
     gap: 20px;
 }
 
-
 .seeAll-button, .add-button, .connect-button, .delete-button {
     display: flex;
     align-items: center;
@@ -71,6 +70,8 @@
 
     width: 30vw;
     height: 65vh;
+
+    border-radius: 10px;
 }
 
 .seeAll-content.seeAll {
@@ -97,12 +98,12 @@
     margin-bottom: 20px;
 }
 
-.seeAll-content .close-button:hover, .add-content .close-button:hover, .add-content .add-button:hover, .delete-content .close-button:hover, .delete-content .delete-button:hover {
+.seeAll-content .close-button:hover, .add-content .close-button:hover, .add-content .add-button:hover, .connect-content .back-button:hover, .connect-content .close-button:hover, .delete-content .close-button:hover, .delete-content .delete-button:hover {
     cursor: pointer;
     background-color: rgb(255, 234, 0);
 }
 
-.add-content .close-button, .add-content .add-button, .delete-content .close-button, .delete-content .delete-button {
+.add-content .close-button, .add-content .add-button, .connect-content .back-button, .connect-content .close-button, .delete-content .close-button, .delete-content .delete-button {
     margin-top: auto;
     font-family: tomofont, sans-serif;
     font-size: 16px;
@@ -239,4 +240,186 @@
 .mii-card.selected {
     background-color: rgb(255, 234, 0);
     border: 3px solid rgb(255, 183, 0);
+    border-radius: 50%;
+}
+
+.input-miis {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.mii1, .mii2 {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.input-relationships {
+    display: flex;
+    flex-direction: column;
+}
+
+.category {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.category.strangers {
+    background-color: rgb(142, 172, 208);
+    margin-top: 20px;
+}
+
+.strangerBut {
+    background-color: rgb(0, 132, 255);
+}
+
+.options {
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 0px 10px;
+}
+
+.connect-form {
+    overflow-y: auto;
+    padding: 10px;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.connect-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category.acquaintance {
+    background-color: #7ba681;
+}
+
+.acquaintanceBut {
+    background-color: #3eb54d;
+}
+
+.category.friend {
+    background-color: #d7ff82;
+}
+
+.friendBut {
+    background-color: rgb(106, 235, 106);
+}
+
+.category.relative {
+    background-color: #d6e6b3;
+}
+
+.relBut {
+    background-color: #bee865;
+}
+
+.category.crushes {
+    background-color: #ff9cdc;
+}
+
+.crushBut {
+    background-color: #ff57c4;
+}
+
+.category.sweethearts {
+    background-color: #ff9cdc;
+}
+
+.sweetheartBut {
+    background-color: #ff57c4;
+}
+
+.category.spouse {
+    background-color: #ff38b9;
+}
+
+.spouseBut {
+    background-color: #ffaae1;
+}
+
+.category.exesRel {
+    background-color: #a361ab;
+}
+
+.exesRelBut {
+    background-color: #a230ae;
+}
+
+.category.exesFre {
+    background-color: #c7ae61;
+}
+
+.exesFreBut {
+    background-color: #cba124;
+}
+
+.divider {
+    width: 100%;
+    height: 2px;
+    background-color: red;
+    margin: 10px 0;
+}
+
+.categoryHeader {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.categoryMenu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+    gap: 10px;
+}
+
+.catBut {
+    background-color: pink;
+    font-family: tomoFont;
+}
+
+.catBut:hover {
+    background-color:rgb(255, 234, 0);
+}
+
+.category-menu {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+
+    justify-content: center;
+    align-content: center;
+    margin-top: 20px;
+}
+
+.connect-menu {
+    flex: 1;
+    min-height: 0;
+}
+
+.goodFriend {
+    height: 100%;
+    overflow-y: auto;
+}
+
+#mii1-name, #mii2-name {
+    border: none;
+    border-radius: 10px;
+    height: 20px;
+    outline: none;
 }

@@ -1,0 +1,26 @@
+.mii-node {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+    padding: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    text-align: center;
+
+    cursor: grab;
+}
+
+.mii-icon svg {
+    font-size: 40px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.mii-label {
+    font-size: 10px;
+}

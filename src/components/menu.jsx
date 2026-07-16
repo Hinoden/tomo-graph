@@ -9,6 +9,7 @@ import Face3Icon from '@mui/icons-material/Face3';
 import Face4Icon from '@mui/icons-material/Face4';
 import Face5Icon from '@mui/icons-material/Face5';
 import Face6Icon from '@mui/icons-material/Face6';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import '../styles/menu.css';
 
 const Menu = ({nodes, addMii, deleteMiis}) => {
@@ -22,6 +23,16 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
     const [selectedColor, setSelectedColor] = useState(null);
 
     const [selectedMiis, setSelectedMiis] = useState([]);
+
+    const [mii1, setMii1] = useState('');
+    const [mii2, setMii2] = useState('');
+
+    const [showConnectStat, setShowConnectStat] = useState('back');
+
+    const [showAcquaintanceStat, setShowAcquaintanceStat] = useState('good');
+    const [showSpouseStat, setShowSpouseStat] = useState('good');
+    const [showFriendStat, setShowFriendStat] = useState('good');
+    const [showSweetheartStat, setShowSweetheartStat] = useState('good');
 
     const toggleMiiSelection = (id) => {
         setSelectedMiis((prev) =>
@@ -218,9 +229,367 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
             </div>}
 
 
+{/* CONNECT ALL MIIS */}
         {activeMenu === 'connect' && 
             <div className={`connect-content ${activeMenu}`}>
-                Connect Miis Content
+                <div className="menu-header">
+                    <h2>Connect Miis</h2>
+                </div>
+                <div className="connect-form">
+                    <div className="input-miis">
+                        <div className="mii1">
+                            <label htmlFor="mii1-name">Mii 1 Name:</label>
+                            <select value={mii1} onChange={(e) => setMii1(e.target.value)}>
+                                <option value="">Select Mii 1</option>
+
+                                {nodes.map((node) => (
+                                    <option key={node.id} value={node.id}>
+                                        {node.data.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <span className="arrow"><ArrowRightAltIcon fontSize="large"/></span>
+                        <div className="mii2">
+                            <label htmlFor="mii2-name">Mii 2 Name:</label>
+                            <select value={mii2} onChange={(e) => setMii2(e.target.value)}>
+                                <option value="">Select Mii 2</option>
+
+                                {nodes.map((node) => (
+                                    <option key={node.id} value={node.id}>
+                                        {node.data.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    {/* TABS FOR EACH CATEGORY */}
+                    <div className="connect-menu">
+                        {showConnectStat === 'back' && (
+                            <div className="category-menu">
+                                <button className="connect-button strangerBut" onClick={() => setShowConnectStat('strangers')}>Strangers</button>
+                                <button className="connect-button acquaintanceBut" onClick={() => setShowConnectStat('acquaintances')}>Acquaintances</button>
+                                <button className="connect-button friendBut" onClick={() => setShowConnectStat('friends')}>Friends</button>
+                                <button className="connect-button relBut" onClick={() => setShowConnectStat('relatives')}>Relative</button>
+                                <button className="connect-button crushBut" onClick={() => setShowConnectStat('crushes')}>Crushes</button>
+                                <button className="connect-button sweetheartBut" onClick={() => setShowConnectStat('sweethearts')}>Sweethearts</button>
+                                <button className="connect-button spouseBut" onClick={() => setShowConnectStat('spouses')}>Spouses</button>
+                            </div>
+                        )}
+                        {/* <div className="input-relationship"> */}
+                        {showConnectStat === 'strangers' && (
+                            <div className="category strangers">
+                                <h3>Strangers</h3>
+                                <div className="options good">
+                                    <button className="connect-button strangerBut">Strangers</button>
+                                </div>
+                            </div>
+                        )}
+                        {showConnectStat === 'acquaintances' && (
+                            <div className="category acquaintance">
+                                {showAcquaintanceStat === 'good' && (
+                                    <div className="good">
+                                        <h3 className="categoryHeader">Acquaintance</h3>
+                                        <div className="categoryMenu">
+                                            <button className="catBut" onClick={() => setShowAcquaintanceStat('one-sided')}>One-Sided</button>
+                                        </div>
+                                        <div className="options good">
+                                            <button className="connect-button acquaintanceBut">Wants to be friends</button>
+                                            <button className="connect-button acquaintanceBut">Vibes with</button>
+                                            <button className="connect-button acquaintanceBut">Seems like-minded</button>
+                                            <button className="connect-button acquaintanceBut">Getting familiar</button>
+                                            <button className="connect-button acquaintanceBut">Some interest</button>
+                                            <button className="connect-button acquaintanceBut">Indifferent</button>
+                                            <button className="connect-button acquaintanceBut">Not interested</button>
+                                        </div>
+                                    </div>
+                                )}
+                                {showAcquaintanceStat === 'one-sided' && (
+                                    <div className="good">
+                                        <h3 className="categoryHeader">Acquaintance (One-Sided)</h3>
+                                        <div className="categoryMenu">
+                                            <button className="catBut" onClick={() => setShowAcquaintanceStat('good')}>Getting Along</button>
+                                        </div>
+                                        <h4 className="categoryHeader">Good</h4>
+                                        <div className="options good">
+                                            <button className="connect-button acquaintanceBut">Ready to risk it all</button>
+                                            <button className="connect-button acquaintanceBut">Head over heels</button>
+                                            <button className="connect-button acquaintanceBut">Crushing</button>
+                                            <button className="connect-button acquaintanceBut">Likes a lot</button>
+                                            <button className="connect-button acquaintanceBut">Has some hope</button>
+                                            <button className="connect-button acquaintanceBut">Close to giving up</button>
+                                            <button className="connect-button acquaintanceBut">Giving up</button>
+                                        </div>
+                                        <h4 className="categoryHeader">Fighting</h4>
+                                        <div className="options bad">
+                                            <button className="connect-button acquaintanceBut">Still ready ot risk it all?</button>
+                                            <button className="connect-button acquaintanceBut">Still head over heels?</button>
+                                            <button className="connect-button acquaintanceBut">Still crushing?</button>
+                                            <button className="connect-button acquaintanceBut">Still likes?</button>
+                                            <button className="connect-button acquaintanceBut">Still interested?</button>
+                                            <button className="connect-button acquaintanceBut">Close to giving up?</button>
+                                            <button className="connect-button acquaintanceBut">Giving up?</button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        {showConnectStat === 'friends' && (
+                            <div className="category friend">
+                                {showFriendStat === 'good' && (
+                                    <div className="good">
+                                        <h3 className="categoryHeader">Friend</h3>
+                                        <div className="categoryMenu">
+                                            <button className="catBut" onClick={() => setShowFriendStat('one-sided')}>One-Sided</button>
+                                            <button className="catBut" onClick={() => setShowFriendStat('bad')}>Fighting</button>
+                                            <button className="catBut" onClick={() => setShowFriendStat('exes')}>Ex-Friends</button>
+                                        </div>
+                                        <div className="options good">
+                                            <button className="connect-button friendBut">Ultra friends</button>
+                                            <button className="connect-button friendBut">Best friends</button>
+                                            <button className="connect-button friendBut">Great friends</button>
+                                            <button className="connect-button friendBut">Friends</button>
+                                            <button className="connect-button friendBut">Kinda getting along</button>
+                                            <button className="connect-button friendBut">Not getting along</button>
+                                        </div>
+                                    </div>
+                                )}
+                                {showFriendStat === 'one-sided' && (
+                                    <div className="goodFriend">
+                                        <h3 className="categoryHeader">Friend (One-Sided)</h3>
+                                        <div className="categoryMenu">
+                                            <button className="catBut" onClick={() => setShowFriendStat('good')}>Getting Along</button>
+                                            <button className="catBut" onClick={() => setShowFriendStat('bad')}>Fighting</button>
+                                            <button className="catBut" onClick={() => setShowFriendStat('exes')}>Ex-Friends</button>
+                                        </div>
+                                        <h4 className="categoryHeader">Good</h4>
+                                        <div className="options one-sided">
+                                            <button className="connect-button friendBut">Ready to risk it all</button>
+                                            <button className="connect-button friendBut">Head over heels</button>
+                                            <button className="connect-button friendBut">Crushing</button>
+                                            <button className="connect-button friendBut">Likes a lot</button>
+                                            <button className="connect-button friendBut">Has some hope</button>
+                                            <button className="connect-button friendBut">Close to giving up</button>
+                                            <button className="connect-button friendBut">Giving up</button>
+                                        </div>
+                                        <h4 className="categoryHeader">Fighting</h4>
+                                        <div className="options one-sided">
+                                            <button className="connect-button friendBut">Still ready to risk it all?</button>
+                                            <button className="connect-button friendBut">Still head over heels?</button>
+                                            <button className="connect-button friendBut">Still crushing?</button>
+                                            <button className="connect-button friendBut">Still likes?</button>
+                                            <button className="connect-button friendBut">Still interested?</button>
+                                            <button className="connect-button friendBut">Close to giving up?</button>
+                                            <button className="connect-button friendBut">Giving up?</button>
+                                        </div>
+                                    </div>
+                                )}
+                                {showFriendStat === 'bad' && (
+                                    <div className="bad">
+                                        <h3 className="categoryHeader">Friend (Fighting)</h3>
+                                            <div className="categoryMenu">
+                                                <button className="catBut" onClick={() => setShowFriendStat('good')}>Getting along</button>
+                                                <button className="catBut" onClick={() => setShowFriendStat('one-sided')}>One-Sided</button>
+                                                <button className="catBut" onClick={() => setShowFriendStat('exes')}>Ex-Friends</button>
+                                            </div>
+                                        <div className="options bad">
+                                            <button className="connect-button friendBut">Still ultra friends?</button>
+                                            <button className="connect-button friendBut">Still best friends?</button>
+                                            <button className="connect-button friendBut">Still great friends?</button>
+                                            <button className="connect-button friendBut">Still good friends?</button>
+                                            <button className="connect-button friendBut">Still friends?</button>
+                                            <button className="connect-button friendBut">Kinda getting along?</button>
+                                            <button className="connect-button friendBut">Not getting along?</button>
+                                        </div>
+                                    </div>
+                                )}
+                                {showFriendStat === 'exes' && (
+                                    <div className="exes">
+                                        <h3 className="categoryHeader">Ex-Friends</h3>
+                                            <div className="categoryMenu">
+                                                <button className="catBut" onClick={() => setShowFriendStat('good')}>Getting along</button>
+                                                <button className="catBut" onClick={() => setShowFriendStat('one-sided')}>One-Sided</button>
+                                                <button className="catBut" onClick={() => setShowFriendStat('bad')}>Fighting</button>
+                                            </div>
+                                        <div className="options exes">
+                                            <button className="connect-button friendBut">Hopes to make up</button>
+                                            <button className="connect-button friendBut">Thinks about often</button>
+                                            <button className="connect-button friendBut">It's complicated...</button>
+                                            <button className="connect-button friendBut">Strained</button>
+                                            <button className="connect-button friendBut">Not speaking</button>
+                                            <button className="connect-button friendBut">Tries to avoid</button>
+                                            <button className="connect-button friendBut">Enemies</button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        {showConnectStat === 'relatives' && (
+                            <div className="category relative">
+                                <h3>Relative</h3>
+                                <div className="options good">
+                                    <button className="connect-button relBut">Cherishes</button>
+                                    <button className="connect-button relBut">Cares deeply for</button>
+                                    <button className="connect-button relBut">Cares alot for</button>
+                                    <button className="connect-button relBut">Cares for</button>
+                                    <button className="connect-button relBut">Cares deeply for</button>
+                                    <button className="connect-button relBut">Getting along well</button>
+                                    <button className="connect-button relBut">Kinda getting along</button>
+                                    <button className="connect-button relBut">Not getting along</button>
+                                </div>
+                            </div>
+                        )}
+                        {showConnectStat === 'crushes' && (
+                            <div className="category crushes">
+                                <h3>Crushes</h3>
+                                <div className="options good">
+                                    <button className="connect-button crushBut">Ready to risk it all</button>
+                                    <button className="connect-button crushBut">Head over heels</button>
+                                    <button className="connect-button crushBut">Crushing</button>
+                                    <button className="connect-button crushBut">Likes a lot</button>
+                                    <button className="connect-button crushBut">Has some hope</button>
+                                    <button className="connect-button crushBut">Close to giving up</button>
+                                    <button className="connect-button crushBut">Giving up</button>
+                                </div>
+                            </div>
+                        )}
+                        {showConnectStat === 'sweethearts' && (
+                            <div className="category sweethearts">
+                                {showSweetheartStat === 'good' && (
+                                    <div className="good">
+                                        <h3 className="categoryHeader">Sweethearts</h3>
+                                        <div className="categoryMenu">
+                                            <button className="catBut" onClick={() => setShowSweetheartStat('bad')}>Fighting</button>
+                                            <button className="catBut" onClick={() => setShowSweetheartStat('exes')}>Exes</button>
+                                        </div>
+                                        <div className="options good">
+                                            <button className="connect-button sweetheartBut">Wants to marry!</button>
+                                            <button className="connect-button sweetheartBut">Super in love</button>
+                                            <button className="connect-button sweetheartBut">In love</button>
+                                            <button className="connect-button sweetheartBut">Falling in love</button>
+                                            <button className="connect-button sweetheartBut">Really likes</button>
+                                            <button className="connect-button sweetheartBut">Kinda getting along</button>
+                                            <button className="connect-button sweetheartBut">Not getting along</button>
+                                        </div>
+                                    </div>
+                                )}
+                                {showSweetheartStat === 'bad' && (
+                                    <div className="bad">
+                                        <h3 className="categoryHeader">Sweethearts (Fighting)</h3>
+                                        <div className="categoryMenu">
+                                            <button className="catBut" onClick={() => setShowSweetheartStat('good')}>Getting Along</button>
+                                            <button className="catBut" onClick={() => setShowSweetheartStat('exes')}>Exes</button>
+                                        </div>
+                                        <div className="options bad">
+                                            <button className="connect-button sweetheartBut">Still wants to marry?</button>
+                                            <button className="connect-button sweetheartBut">Still super in love?</button>
+                                            <button className="connect-button sweetheartBut">Still in love?</button>
+                                            <button className="connect-button sweetheartBut">Still falling in love?</button>
+                                            <button className="connect-button sweetheartBut">Still really likes?</button>
+                                            <button className="connect-button sweetheartBut">Kinda getting along?</button>
+                                            <button className="connect-button sweetheartBut">Not getting along?</button>
+                                        </div>
+                                    </div>
+                                )}
+                                {showSweetheartStat === 'exes' && (
+                                    <div className="exes">
+                                        <h3 className="categoryHeader">Sweethearts (Exes)</h3>
+                                        <div className="categoryMenu">
+                                            <button className="catBut" onClick={() => setShowSweetheartStat('good')}>Getting Along</button>
+                                            <button className="catBut" onClick={() => setShowSweetheartStat('bad')}>Fighting</button>
+                                        </div>
+                                        <div className="options bad">
+                                            <button className="connect-button sweetheartBut">Still wants to marry?</button>
+                                            <button className="connect-button sweetheartBut">Still super in love?</button>
+                                            <button className="connect-button sweetheartBut">Still in love?</button>
+                                            <button className="connect-button sweetheartBut">Still falling in love?</button>
+                                            <button className="connect-button sweetheartBut">Still really likes?</button>
+                                            <button className="connect-button sweetheartBut">Kinda getting along?</button>
+                                            <button className="connect-button sweetheartBut">Not getting along?</button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        {showConnectStat === 'spouses' && (
+                            <div className="category spouse">
+                                {showSpouseStat === 'good' && (
+                                <div className="good">
+                                    <h3 className="categoryHeader">Spouse</h3>
+                                    <div className="categoryMenu">
+                                        <button className="catBut" onClick={() => setShowSpouseStat('bad')}>Fighting</button>
+                                        <button className="catBut" onClick={() => setShowSpouseStat('exes')}>Exes</button>
+                                    </div>
+                                    <div className="options">
+                                        <button className="connect-button spouseBut">Soulmates</button>
+                                        <button className="connect-button spouseBut">Super in love</button>
+                                        <button className="connect-button spouseBut">Very in love</button>
+                                        <button className="connect-button spouseBut">In love</button>
+                                        <button className="connect-button spouseBut">Happy</button>
+                                        <button className="connect-button spouseBut">Making it work</button>
+                                        <button className="connect-button spouseBut">Not getting along</button>
+                                    </div>
+                                </div>
+                                )}
+                                {showSpouseStat === 'bad' && (
+                                <div className="bad">
+                                    <h3 className="categoryHeader">Spouse (Fighting)</h3>
+                                    <div className="categoryMenu">
+                                        <button className="catBut" onClick={() => setShowSpouseStat('good')}>Getting Along</button>
+                                        <button className="catBut" onClick={() => setShowSpouseStat('exes')}>Exes</button>
+                                    </div>
+                                    <div className="options bad">
+                                        <button className="connect-button spouseBut">Still soulmates?</button>
+                                        <button className="connect-button spouseBut">Still super in love?</button>
+                                        <button className="connect-button spouseBut">Still very in love?</button>
+                                        <button className="connect-button spouseBut">Still in love?</button>
+                                        <button className="connect-button spouseBut">Still happy?</button>
+                                        <button className="connect-button spouseBut">Making it work?</button>
+                                        <button className="connect-button spouseBut">Still trying?</button>
+                                    </div>
+                                </div>
+                                )}
+                                {showSpouseStat === 'exes' && (
+                                <div className="exes">
+                                    <h3 className="categoryHeader">Spouse (Exes)</h3>
+                                    <div className="categoryMenu">
+                                        <button className="catBut" onClick={() => setShowSpouseStat('good')}>Getting Along</button>
+                                        <button className="catBut" onClick={() => setShowSpouseStat('bad')}>Fighting</button>
+                                    </div>
+                                    <div className="options good">
+                                        <button className="connect-button spouseBut">Would try again</button>
+                                        <button className="connect-button spouseBut">Still great friends</button>
+                                        <button className="connect-button spouseBut">On good terms</button>
+                                        <button className="connect-button spouseBut">No hard feelings</button>
+                                        <button className="connect-button spouseBut">Tries to avoid</button>
+                                        <button className="connect-button spouseBut">Enemies</button>
+                                    </div>
+                                </div>
+                                )}
+                            </div>
+                        )}
+                        {/* </div> */}
+                    </div>
+                </div>
+                <div className="button-menu">
+                    {showConnectStat !== 'back' && (
+                        <button className="back-button" onClick={() => {
+                            setShowConnectStat('back');
+                            setShowFriendStat('good');
+                            setShowSpouseStat('good');
+                            setShowSweetheartStat('good');
+                            }}>Back
+                        </button>
+                    )}
+                    <button className="close-button" onClick={() => {
+                        setShowConnectStat('back');
+                        setShowFriendStat('good');
+                        setShowSpouseStat('good');
+                        setShowSweetheartStat('good');
+                        setActiveMenu(null);
+                        }}>Done
+                    </button>
+                </div>
             </div>}
 
 {/* DELETE MIIS */}

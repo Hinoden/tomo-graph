@@ -9,18 +9,24 @@ import Face6Icon from '@mui/icons-material/Face6';
 import 'reactflow/dist/style.css';
 import Navbar from './components/navbar.jsx';
 import Menu from './components/menu.jsx';
+import MiiNode from './components/MiiNode.jsx';
 import './App.css';
 
 function App() {
+const nodeTypes = {
+  mii: MiiNode,
+};
+
 const [nodes, setNodes] = useState([   //the miis
   {
     id: '1',
+    type: 'mii',
     position: {
       x: 0,
       y: 0,
     },
     data: {
-      label: 'Node 1',
+      label: 'Example Mii',
       icon: <FaceIcon />,
       color: '#a481f7',
     },
@@ -34,6 +40,7 @@ const onNodesChange = (changes) => {
 const addMii = (name, icon, color) => {
   const newNode = {
     id: Date.now().toString(),
+    type: 'mii',
     position: {
       x: 0,
       y: 0
@@ -64,6 +71,7 @@ const edges = [];   //the connections between the miis
         <ReactFlow
           nodes={nodes}
           edges={edges}
+          nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           fitView
         />
