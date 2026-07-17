@@ -11,8 +11,22 @@ import Face5Icon from '@mui/icons-material/Face5';
 import Face6Icon from '@mui/icons-material/Face6';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import '../styles/menu.css';
+import { ReplayTwoTone } from '@mui/icons-material';
 
-const Menu = ({nodes, addMii, deleteMiis}) => {
+const Menu = ({nodes, addMii, deleteMiis, connectMiis}) => {
+    const relationshipColors = {
+    strangers: 'rgb(0, 132, 255)',
+    acquaintances: '#3eb54d',
+    friends: 'rgb(106, 235, 106)',
+    relatives: '#bee865',
+    crushes: '#ff57c4',
+    sweethearts: '#ff57c4',
+    spouses: '#ffaae1',
+    fighting: 'rgb(255, 0, 0)',
+    exfriends: 'rgb(205, 196, 129)',
+    exlove: 'rgb(164, 71, 244)',
+    };
+
     const [activeMenu, setActiveMenu] = useState(null);
 
     const [name, setName] = useState('');
@@ -23,6 +37,7 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
     const [selectedColor, setSelectedColor] = useState(null);
 
     const [selectedMiis, setSelectedMiis] = useState([]);
+    const [selectedRelationship, setSelectedRelationship] = useState(null);
 
     const [mii1, setMii1] = useState('');
     const [mii2, setMii2] = useState('');
@@ -281,7 +296,15 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                             <div className="category strangers">
                                 <h3>Strangers</h3>
                                 <div className="options good">
-                                    <button className="connect-button strangerBut">Strangers</button>
+                                    <button className={`connect-button strangerBut ${
+                                        selectedRelationship?.label === 'Strangers' ? 'selected' : ''
+                                    }`}
+                                    onClick={() => 
+                                        setSelectedRelationship({
+                                            label: 'Strangers',
+                                            color: relationshipColors.strangers,
+                                            directed: false,
+                                        })}>Strangers</button>
                                 </div>
                             </div>
                         )}
@@ -294,13 +317,68 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                             <button className="catBut" onClick={() => setShowAcquaintanceStat('one-sided')}>One-Sided</button>
                                         </div>
                                         <div className="options good">
-                                            <button className="connect-button acquaintanceBut">Wants to be friends</button>
-                                            <button className="connect-button acquaintanceBut">Vibes with</button>
-                                            <button className="connect-button acquaintanceBut">Seems like-minded</button>
-                                            <button className="connect-button acquaintanceBut">Getting familiar</button>
-                                            <button className="connect-button acquaintanceBut">Some interest</button>
-                                            <button className="connect-button acquaintanceBut">Indifferent</button>
-                                            <button className="connect-button acquaintanceBut">Not interested</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Wants to be friends' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Wants to be friends',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                            })}>Wants to be friends</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Vibes with' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Vibes with',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Vibes with</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Seems like-minded' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Seems like-minded',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Seems like-minded</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Getting familiar' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Getting familiar',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Getting familiar</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Some interest' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Some interest',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Some interest</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Indifferent' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Indifferent',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Indifferent</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Not interested' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Not interested',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Not interested</button>
                                         </div>
                                     </div>
                                 )}
@@ -312,23 +390,135 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                         </div>
                                         <h4 className="categoryHeader">Good</h4>
                                         <div className="options good">
-                                            <button className="connect-button acquaintanceBut">Ready to risk it all</button>
-                                            <button className="connect-button acquaintanceBut">Head over heels</button>
-                                            <button className="connect-button acquaintanceBut">Crushing</button>
-                                            <button className="connect-button acquaintanceBut">Likes a lot</button>
-                                            <button className="connect-button acquaintanceBut">Has some hope</button>
-                                            <button className="connect-button acquaintanceBut">Close to giving up</button>
-                                            <button className="connect-button acquaintanceBut">Giving up</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Ready to risk it all' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Ready to risk it all',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Ready to risk it all</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Head over heels' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Head over heels',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Head over heels</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Crushing' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Crushing',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Crushing</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Likes a lot' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Likes a lot',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Likes a lot</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Has some hope' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Has some hope',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Has some hope</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Close to giving up' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Close to giving up',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Close to giving up</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Giving up' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Giving up',
+                                                    color: relationshipColors.acquaintances,
+                                                    directed: false,
+                                                })
+                                            }>Giving up</button>
                                         </div>
                                         <h4 className="categoryHeader">Fighting</h4>
                                         <div className="options bad">
-                                            <button className="connect-button acquaintanceBut">Still ready ot risk it all?</button>
-                                            <button className="connect-button acquaintanceBut">Still head over heels?</button>
-                                            <button className="connect-button acquaintanceBut">Still crushing?</button>
-                                            <button className="connect-button acquaintanceBut">Still likes?</button>
-                                            <button className="connect-button acquaintanceBut">Still interested?</button>
-                                            <button className="connect-button acquaintanceBut">Close to giving up?</button>
-                                            <button className="connect-button acquaintanceBut">Giving up?</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Still ready to risk it all?' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Still ready to risk it all?',
+                                                    color: relationshipColors.fighting,
+                                                    directed: false,
+                                                })
+                                            }>Still ready to risk it all?</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Still head over heels?' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Still head over heels?',
+                                                    color: relationshipColors.fighting,
+                                                    directed: false,
+                                                })
+                                            }>Still head over heels?</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Still crushing?' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Still crushing?',
+                                                    color: relationshipColors.fighting,
+                                                    directed: false,
+                                                })
+                                            }>Still crushing?</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Still likes?' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Still likes?',
+                                                    color: relationshipColors.fighting,
+                                                    directed: false,
+                                                })
+                                            }>Still likes?</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Still interested?' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Still interested?',
+                                                    color: relationshipColors.fighting,
+                                                    directed: false,
+                                                })
+                                            }>Still interested?</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Close to giving up?' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Close to giving up?',
+                                                    color: relationshipColors.fighting,
+                                                    directed: false,
+                                                })
+                                            }>Close to giving up?</button>
+                                            <button className={`connect-button acquaintanceBut ${
+                                                selectedRelationship?.label === 'Giving up?' ? 'selected' : ''
+                                            }`} onClick={() => 
+                                                setSelectedRelationship({
+                                                    label: 'Giving up?',
+                                                    color: relationshipColors.fighting,
+                                                    directed: false,
+                                                })
+                                            }>Giving up?</button>
                                         </div>
                                     </div>
                                 )}
@@ -345,12 +535,48 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                             <button className="catBut" onClick={() => setShowFriendStat('exes')}>Ex-Friends</button>
                                         </div>
                                         <div className="options good">
-                                            <button className="connect-button friendBut">Ultra friends</button>
-                                            <button className="connect-button friendBut">Best friends</button>
-                                            <button className="connect-button friendBut">Great friends</button>
-                                            <button className="connect-button friendBut">Friends</button>
-                                            <button className="connect-button friendBut">Kinda getting along</button>
-                                            <button className="connect-button friendBut">Not getting along</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Ultra friends' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Ultra friends',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Ultra friends</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Best friends' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Best friends',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Best friends</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Great friends' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Great friends',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Great friends</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Friends' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Friends',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Friends</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Kinda getting along' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Kinda getting along',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Kinda getting along</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Not getting along' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Not getting along',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Not getting along</button>
                                         </div>
                                     </div>
                                 )}
@@ -364,23 +590,107 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                         </div>
                                         <h4 className="categoryHeader">Good</h4>
                                         <div className="options one-sided">
-                                            <button className="connect-button friendBut">Ready to risk it all</button>
-                                            <button className="connect-button friendBut">Head over heels</button>
-                                            <button className="connect-button friendBut">Crushing</button>
-                                            <button className="connect-button friendBut">Likes a lot</button>
-                                            <button className="connect-button friendBut">Has some hope</button>
-                                            <button className="connect-button friendBut">Close to giving up</button>
-                                            <button className="connect-button friendBut">Giving up</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Ready to risk it all' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Ready to risk it all',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Ready to risk it all</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Head over heels' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Head over heels',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Head over heels</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Crushing' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Crushing',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Crushing</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Likes a lot' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Likes a lot',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Likes a lot</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Has some hope' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Has some hope',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Has some hope</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Close to giving up' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Close to giving up',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Close to giving up</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Giving up' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Giving up',
+                                                color: relationshipColors.friends,
+                                                directed: false
+                                            })}>Giving up</button>
                                         </div>
                                         <h4 className="categoryHeader">Fighting</h4>
                                         <div className="options one-sided">
-                                            <button className="connect-button friendBut">Still ready to risk it all?</button>
-                                            <button className="connect-button friendBut">Still head over heels?</button>
-                                            <button className="connect-button friendBut">Still crushing?</button>
-                                            <button className="connect-button friendBut">Still likes?</button>
-                                            <button className="connect-button friendBut">Still interested?</button>
-                                            <button className="connect-button friendBut">Close to giving up?</button>
-                                            <button className="connect-button friendBut">Giving up?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Still ready to risk it all?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still ready to risk it all?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Still ready to risk it all?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Still head over heels?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still head over heels?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Still head over heels?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Still crushing?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still crushing?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Still crushing?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Still likes?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still likes?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Still likes?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Still interested?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still interested?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Still interested?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Close to giving up?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Close to giving up?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Close to giving up?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Giving up?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Giving up?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Giving up?</button>
                                         </div>
                                     </div>
                                 )}
@@ -393,13 +703,55 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                                 <button className="catBut" onClick={() => setShowFriendStat('exes')}>Ex-Friends</button>
                                             </div>
                                         <div className="options bad">
-                                            <button className="connect-button friendBut">Still ultra friends?</button>
-                                            <button className="connect-button friendBut">Still best friends?</button>
-                                            <button className="connect-button friendBut">Still great friends?</button>
-                                            <button className="connect-button friendBut">Still good friends?</button>
-                                            <button className="connect-button friendBut">Still friends?</button>
-                                            <button className="connect-button friendBut">Kinda getting along?</button>
-                                            <button className="connect-button friendBut">Not getting along?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Still ultra friends?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still ultra friends?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Still ultra friends?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Still best friends?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still best friends?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Still best friends?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Still great friends?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still great friends?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Still great friends?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Still good friends?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still good friends?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Still good friends?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Still friends?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still friends?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Still friends?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Kinda getting along?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Kinda getting along?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Kinda getting along?</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Not getting along?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Not getting along?',
+                                                color: relationshipColors.fighting,
+                                                directed: false
+                                            })}>Not getting along?</button>
                                         </div>
                                     </div>
                                 )}
@@ -412,13 +764,55 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                                 <button className="catBut" onClick={() => setShowFriendStat('bad')}>Fighting</button>
                                             </div>
                                         <div className="options exes">
-                                            <button className="connect-button friendBut">Hopes to make up</button>
-                                            <button className="connect-button friendBut">Thinks about often</button>
-                                            <button className="connect-button friendBut">It's complicated...</button>
-                                            <button className="connect-button friendBut">Strained</button>
-                                            <button className="connect-button friendBut">Not speaking</button>
-                                            <button className="connect-button friendBut">Tries to avoid</button>
-                                            <button className="connect-button friendBut">Enemies</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Hopes to make up' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Hopes to make up',
+                                                color: relationshipColors.exfriends,
+                                                directed: false
+                                            })}>Hopes to make up</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Thinks about often' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Thinks about often',
+                                                color: relationshipColors.exfriends,
+                                                directed: false
+                                            })}>Thinks about often</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === "It's complicated..." ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: "It's complicated...",
+                                                color: relationshipColors.exfriends,
+                                                directed: false
+                                            })}>It's complicated...</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Strained' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Strained',
+                                                color: relationshipColors.exfriends,
+                                                directed: false
+                                            })}>Strained</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Not speaking' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Not speaking',
+                                                color: relationshipColors.exfriends,
+                                                directed: false
+                                            })}>Not speaking</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Tries to avoid' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Tries to avoid',
+                                                color: relationshipColors.exfriends,
+                                                directed: false
+                                            })}>Tries to avoid</button>
+                                            <button className={`connect-button friendBut ${
+                                                selectedRelationship?.label === 'Enemies' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Enemies',
+                                                color: relationshipColors.exfriends,
+                                                directed: false
+                                            })}>Enemies</button>
                                         </div>
                                     </div>
                                 )}
@@ -428,14 +822,55 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                             <div className="category relative">
                                 <h3>Relative</h3>
                                 <div className="options good">
-                                    <button className="connect-button relBut">Cherishes</button>
-                                    <button className="connect-button relBut">Cares deeply for</button>
-                                    <button className="connect-button relBut">Cares alot for</button>
-                                    <button className="connect-button relBut">Cares for</button>
-                                    <button className="connect-button relBut">Cares deeply for</button>
-                                    <button className="connect-button relBut">Getting along well</button>
-                                    <button className="connect-button relBut">Kinda getting along</button>
-                                    <button className="connect-button relBut">Not getting along</button>
+                                    <button className={`connect-button relBut ${
+                                        selectedRelationship?.label === 'Cherishes' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Cherishes',
+                                        color: relationshipColors.relatives,
+                                        directed: false
+                                    })}>Cherishes</button>
+                                    <button className={`connect-button relBut ${
+                                        selectedRelationship?.label === 'Cares deeply for' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Cares deeply for',
+                                        color: relationshipColors.relatives,
+                                        directed: false
+                                    })}>Cares deeply for</button>
+                                    <button className={`connect-button relBut ${
+                                        selectedRelationship?.label === 'Cares alot for' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Cares alot for',
+                                        color: relationshipColors.relatives,
+                                        directed: false
+                                    })}>Cares alot for</button>
+                                    <button className={`connect-button relBut ${
+                                        selectedRelationship?.label === 'Cares for' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Cares for',
+                                        color: relationshipColors.relatives,
+                                        directed: false
+                                    })}>Cares for</button>
+                                    <button className={`connect-button relBut ${
+                                        selectedRelationship?.label === 'Getting along well' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Getting along well',
+                                        color: relationshipColors.relatives,
+                                        directed: false
+                                    })}>Getting along well</button>
+                                    <button className={`connect-button relBut ${
+                                        selectedRelationship?.label === 'Kinda getting along' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Kinda getting along',
+                                        color: relationshipColors.relatives,
+                                        directed: false
+                                    })}>Kinda getting along</button>
+                                    <button className={`connect-button relBut ${
+                                        selectedRelationship?.label === 'Not getting along' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Not getting along',
+                                        color: relationshipColors.relatives,
+                                        directed: false
+                                    })}>Not getting along</button>
                                 </div>
                             </div>
                         )}
@@ -443,13 +878,55 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                             <div className="category crushes">
                                 <h3>Crushes</h3>
                                 <div className="options good">
-                                    <button className="connect-button crushBut">Ready to risk it all</button>
-                                    <button className="connect-button crushBut">Head over heels</button>
-                                    <button className="connect-button crushBut">Crushing</button>
-                                    <button className="connect-button crushBut">Likes a lot</button>
-                                    <button className="connect-button crushBut">Has some hope</button>
-                                    <button className="connect-button crushBut">Close to giving up</button>
-                                    <button className="connect-button crushBut">Giving up</button>
+                                    <button className={`connect-button crushBut ${
+                                        selectedRelationship?.label === 'Ready to risk it all' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Ready to risk it all',
+                                        color: relationshipColors.crushes,
+                                        directed: true
+                                    })}>Ready to risk it all</button>
+                                    <button className={`connect-button crushBut ${
+                                        selectedRelationship?.label === 'Head over heels' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Head over heels',
+                                        color: relationshipColors.crushes,
+                                        directed: true
+                                    })}>Head over heels</button>
+                                    <button className={`connect-button crushBut ${
+                                        selectedRelationship?.label === 'Crushing' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Crushing',
+                                        color: relationshipColors.crushes,
+                                        directed: true
+                                    })}>Crushing</button>
+                                    <button className={`connect-button crushBut ${
+                                        selectedRelationship?.label === 'Likes a lot' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Likes a lot',
+                                        color: relationshipColors.crushes,
+                                        directed: true
+                                    })}>Likes a lot</button>
+                                    <button className={`connect-button crushBut ${
+                                        selectedRelationship?.label === 'Has some hope' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Has some hope',
+                                        color: relationshipColors.crushes,
+                                        directed: true
+                                    })}>Has some hope</button>
+                                    <button className={`connect-button crushBut ${
+                                        selectedRelationship?.label === 'Close to giving up' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Close to giving up',
+                                        color: relationshipColors.crushes,
+                                        directed: true
+                                    })}>Close to giving up</button>
+                                    <button className={`connect-button crushBut ${
+                                        selectedRelationship?.label === 'Giving up' ? 'selected' : ''
+                                    }`} onClick={() => setSelectedRelationship({
+                                        label: 'Giving up',
+                                        color: relationshipColors.crushes,
+                                        directed: true
+                                    })}>Giving up</button>
                                 </div>
                             </div>
                         )}
@@ -463,13 +940,55 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                             <button className="catBut" onClick={() => setShowSweetheartStat('exes')}>Exes</button>
                                         </div>
                                         <div className="options good">
-                                            <button className="connect-button sweetheartBut">Wants to marry!</button>
-                                            <button className="connect-button sweetheartBut">Super in love</button>
-                                            <button className="connect-button sweetheartBut">In love</button>
-                                            <button className="connect-button sweetheartBut">Falling in love</button>
-                                            <button className="connect-button sweetheartBut">Really likes</button>
-                                            <button className="connect-button sweetheartBut">Kinda getting along</button>
-                                            <button className="connect-button sweetheartBut">Not getting along</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Wants to marry!' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Wants to marry!',
+                                                color: relationshipColors.sweethearts,
+                                                directed: true
+                                            })}>Wants to marry!</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Super in love' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Super in love',
+                                                color: relationshipColors.sweethearts,
+                                                directed: true
+                                            })}>Super in love</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'In love' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'In love',
+                                                color: relationshipColors.sweethearts,
+                                                directed: true
+                                            })}>In love</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Falling in love' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Falling in love',
+                                                color: relationshipColors.sweethearts,
+                                                directed: true
+                                            })}>Falling in love</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Really likes' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Really likes',
+                                                color: relationshipColors.sweethearts,
+                                                directed: true
+                                            })}>Really likes</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Kinda getting along' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Kinda getting along',
+                                                color: relationshipColors.sweethearts,
+                                                directed: true
+                                            })}>Kinda getting along</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Not getting along' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Not getting along',
+                                                color: relationshipColors.sweethearts,
+                                                directed: true
+                                            })}>Not getting along</button>
                                         </div>
                                     </div>
                                 )}
@@ -481,13 +1000,55 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                             <button className="catBut" onClick={() => setShowSweetheartStat('exes')}>Exes</button>
                                         </div>
                                         <div className="options bad">
-                                            <button className="connect-button sweetheartBut">Still wants to marry?</button>
-                                            <button className="connect-button sweetheartBut">Still super in love?</button>
-                                            <button className="connect-button sweetheartBut">Still in love?</button>
-                                            <button className="connect-button sweetheartBut">Still falling in love?</button>
-                                            <button className="connect-button sweetheartBut">Still really likes?</button>
-                                            <button className="connect-button sweetheartBut">Kinda getting along?</button>
-                                            <button className="connect-button sweetheartBut">Not getting along?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Still wants to marry?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still wants to marry?',
+                                                color: relationshipColors.fighting,
+                                                directed: true
+                                            })}>Still wants to marry?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Still super in love?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still super in love?',
+                                                color: relationshipColors.fighting,
+                                                directed: true
+                                            })}>Still super in love?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Still in love?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still in love?',
+                                                color: relationshipColors.fighting,
+                                                directed: true
+                                            })}>Still in love?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Still falling in love?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still falling in love?',
+                                                color: relationshipColors.fighting,
+                                                directed: true
+                                            })}>Still falling in love?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Still really likes?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still really likes?',
+                                                color: relationshipColors.fighting,
+                                                directed: true
+                                            })}>Still really likes?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Kinda getting along?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Kinda getting along?',
+                                                color: relationshipColors.fighting,
+                                                directed: true
+                                            })}>Kinda getting along?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Not getting along?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Not getting along?',
+                                                color: relationshipColors.fighting,
+                                                directed: true
+                                            })}>Not getting along?</button>
                                         </div>
                                     </div>
                                 )}
@@ -499,13 +1060,55 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                             <button className="catBut" onClick={() => setShowSweetheartStat('bad')}>Fighting</button>
                                         </div>
                                         <div className="options bad">
-                                            <button className="connect-button sweetheartBut">Still wants to marry?</button>
-                                            <button className="connect-button sweetheartBut">Still super in love?</button>
-                                            <button className="connect-button sweetheartBut">Still in love?</button>
-                                            <button className="connect-button sweetheartBut">Still falling in love?</button>
-                                            <button className="connect-button sweetheartBut">Still really likes?</button>
-                                            <button className="connect-button sweetheartBut">Kinda getting along?</button>
-                                            <button className="connect-button sweetheartBut">Not getting along?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Still wants to marry?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still wants to marry?',
+                                                color: relationshipColors.exlove,
+                                                directed: true
+                                            })}>Still wants to marry?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Still super in love?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still super in love?',
+                                                color: relationshipColors.exlove,
+                                                directed: true
+                                            })}>Still super in love?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Still in love?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still in love?',
+                                                color: relationshipColors.exlove,
+                                                directed: true
+                                            })}>Still in love?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Still falling in love?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still falling in love?',
+                                                color: relationshipColors.exlove,
+                                                directed: true
+                                            })}>Still falling in love?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Still really likes?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Still really likes?',
+                                                color: relationshipColors.exlove,
+                                                directed: true
+                                            })}>Still really likes?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Kinda getting along?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Kinda getting along?',
+                                                color: relationshipColors.exlove,
+                                                directed: true
+                                            })}>Kinda getting along?</button>
+                                            <button className={`connect-button sweetheartBut ${
+                                                selectedRelationship?.label === 'Not getting along?' ? 'selected' : ''
+                                            }`} onClick={() => setSelectedRelationship({
+                                                label: 'Not getting along?',
+                                                color: relationshipColors.exlove,
+                                                directed: true
+                                            })}>Not getting along?</button>
                                         </div>
                                     </div>
                                 )}
@@ -521,13 +1124,55 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                         <button className="catBut" onClick={() => setShowSpouseStat('exes')}>Exes</button>
                                     </div>
                                     <div className="options">
-                                        <button className="connect-button spouseBut">Soulmates</button>
-                                        <button className="connect-button spouseBut">Super in love</button>
-                                        <button className="connect-button spouseBut">Very in love</button>
-                                        <button className="connect-button spouseBut">In love</button>
-                                        <button className="connect-button spouseBut">Happy</button>
-                                        <button className="connect-button spouseBut">Making it work</button>
-                                        <button className="connect-button spouseBut">Not getting along</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Soulmates' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Soulmates',
+                                            color: relationshipColors.spouses,
+                                            directed: true
+                                        })}>Soulmates</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Super in love' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Super in love',
+                                            color: relationshipColors.spouses,
+                                            directed: true
+                                        })}>Super in love</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Very in love' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Very in love',
+                                            color: relationshipColors.spouses,
+                                            directed: true
+                                        })}>Very in love</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'In love' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'In love',
+                                            color: relationshipColors.spouses,
+                                            directed: true
+                                        })}>In love</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Happy' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Happy',
+                                            color: relationshipColors.spouses,
+                                            directed: true
+                                        })}>Happy</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Making it work' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Making it work',
+                                            color: relationshipColors.spouses,
+                                            directed: true
+                                        })}>Making it work</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Not getting along' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Not getting along',
+                                            color: relationshipColors.spouses,
+                                            directed: true
+                                        })}>Not getting along</button>
                                     </div>
                                 </div>
                                 )}
@@ -539,13 +1184,55 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                         <button className="catBut" onClick={() => setShowSpouseStat('exes')}>Exes</button>
                                     </div>
                                     <div className="options bad">
-                                        <button className="connect-button spouseBut">Still soulmates?</button>
-                                        <button className="connect-button spouseBut">Still super in love?</button>
-                                        <button className="connect-button spouseBut">Still very in love?</button>
-                                        <button className="connect-button spouseBut">Still in love?</button>
-                                        <button className="connect-button spouseBut">Still happy?</button>
-                                        <button className="connect-button spouseBut">Making it work?</button>
-                                        <button className="connect-button spouseBut">Still trying?</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Still soulmates?' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Still soulmates?',
+                                            color: relationshipColors.fighting,
+                                            directed: true
+                                        })}>Still soulmates?</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Still super in love?' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Still super in love?',
+                                            color: relationshipColors.fighting,
+                                            directed: true
+                                        })}>Still super in love?</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Still very in love?' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Still very in love?',
+                                            color: relationshipColors.fighting,
+                                            directed: true
+                                        })}>Still very in love?</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Still in love?' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Still in love?',
+                                            color: relationshipColors.fighting,
+                                            directed: true
+                                        })}>Still in love?</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Still happy?' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Still happy?',
+                                            color: relationshipColors.fighting,
+                                            directed: true
+                                        })}>Still happy?</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Making it work?' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Making it work?',
+                                            color: relationshipColors.fighting,
+                                            directed: true
+                                        })}>Making it work?</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Still trying?' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Still trying?',
+                                            color: relationshipColors.fighting,
+                                            directed: true
+                                        })}>Still trying?</button>
                                     </div>
                                 </div>
                                 )}
@@ -557,18 +1244,53 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                                         <button className="catBut" onClick={() => setShowSpouseStat('bad')}>Fighting</button>
                                     </div>
                                     <div className="options good">
-                                        <button className="connect-button spouseBut">Would try again</button>
-                                        <button className="connect-button spouseBut">Still great friends</button>
-                                        <button className="connect-button spouseBut">On good terms</button>
-                                        <button className="connect-button spouseBut">No hard feelings</button>
-                                        <button className="connect-button spouseBut">Tries to avoid</button>
-                                        <button className="connect-button spouseBut">Enemies</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Would try again' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Would try again',
+                                            color: relationshipColors.exlove,
+                                            directed: true
+                                        })}>Would try again</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Still great friends' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Still great friends',
+                                            color: relationshipColors.exlove,
+                                            directed: true
+                                        })}>Still great friends</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'On good terms' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'On good terms',
+                                            color: relationshipColors.exlove,
+                                            directed: true
+                                        })}>On good terms</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'No hard feelings' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'No hard feelings',
+                                            color: relationshipColors.exlove,
+                                            directed: true
+                                        })}>No hard feelings</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Tries to avoid' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Tries to avoid',
+                                            color: relationshipColors.exlove,
+                                            directed: true
+                                        })}>Tries to avoid</button>
+                                        <button className={`connect-button spouseBut ${
+                                            selectedRelationship?.label === 'Enemies' ? 'selected' : ''
+                                        }`} onClick={() => setSelectedRelationship({
+                                            label: 'Enemies',
+                                            color: relationshipColors.exlove,
+                                            directed: true
+                                        })}>Enemies</button>
                                     </div>
                                 </div>
                                 )}
                             </div>
                         )}
-                        {/* </div> */}
                     </div>
                 </div>
                 <div className="button-menu">
@@ -578,15 +1300,18 @@ const Menu = ({nodes, addMii, deleteMiis}) => {
                             setShowFriendStat('good');
                             setShowSpouseStat('good');
                             setShowSweetheartStat('good');
+                            setSelectedRelationship(null);
                             }}>Back
                         </button>
                     )}
                     <button className="close-button" onClick={() => {
+                        connectMiis(mii1, mii2, selectedRelationship);
                         setShowConnectStat('back');
                         setShowFriendStat('good');
                         setShowSpouseStat('good');
                         setShowSweetheartStat('good');
                         setActiveMenu(null);
+                        setSelectedRelationship(null);
                         }}>Done
                     </button>
                 </div>

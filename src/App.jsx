@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
+import { MarkerType } from 'reactflow';
 import {ReactFlow, applyNodeChanges}from 'reactflow';
 import FaceIcon from '@mui/icons-material/Face';
-import Face2Icon from '@mui/icons-material/Face2';
-import Face3Icon from '@mui/icons-material/Face3';
-import Face4Icon from '@mui/icons-material/Face4';
-import Face5Icon from '@mui/icons-material/Face5';
-import Face6Icon from '@mui/icons-material/Face6';
 import 'reactflow/dist/style.css';
 import Navbar from './components/navbar.jsx';
 import Menu from './components/menu.jsx';
 import MiiNode from './components/MiiNode.jsx';
+import RelationshipEdge from './components/relationshipEdge.jsx';
 import './App.css';
 
 function App() {
@@ -56,21 +53,162 @@ const addMii = (name, icon, color) => {
 }
 
 const deleteMiis = (ids) => {
-  setNodes((nodes) => nodes.filter((node) => !ids.includes(node.id)));
+  setNodes((nodes) => 
+    nodes.filter((node) => !ids.includes(node.id))
+  );
+
+  setEdges((edges) =>
+    edges.filter((edge) => !ids.includes(edge.source) && !ids.includes(edge.target))
+  );
 };
 
-const edges = [];   //the connections between the miis
+const [edges, setEdges] = useState([]);   //the connections between the miis
+
+const connectMiis = (source, target, relationship) => {
+  const newEdge = {
+    id: `${source}-${target}`,
+    source,
+    target,
+
+    label: relationship.label,
+
+    style: {
+      stroke: relationship.color,
+      strokeWidth: 3,
+    },
+
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+    },
+  };
+
+  setEdges((prevEdges) => {
+    const existing = prevEdges.find(
+      (edge) => edge.source === source && edge.target === target
+    );
+
+    if (existing) {
+      return prevEdges.map((edge) => 
+        edge.id === existing.id ? newEdge : edge
+      );
+    }
+
+    return [...prevEdges, newEdge];
+  });
+};
+
+// const connectMiis = (source, target, relationship) => {
+//   const newEdge = {
+//     id: `${source}-${target}`,
+//     source,
+//     target,
+    
+//     label: relationship.label,
+
+//     style: {
+//       stroke: relationship.color,
+//       strokeWidth: 3,
+//     },
+
+//     markerEnd: {
+//       type: MarkerType.ArrowClosed,
+//     },
+//   };
+
+//   setEdges((prevEdges) => [...prevEdges, newEdge]);
+// }
+
+const edgeTypes = {
+    relationship: RelationshipEdge,
+};
+
+const displayEdges = [];
+const processed = new Set();
+
+edges.forEach((edge) => {
+  // Skip if we've already handled this edge
+  if (processed.has(edge.id)) {
+    return;
+  }
+
+  const reverse = edges.find(
+    (e) =>
+      e.source === edge.target &&
+      e.target === edge.source
+  );
+
+  // Case 1: Same relationship -> one double-sided edge
+  if (reverse && reverse.label === edge.label) {
+    displayEdges.push({
+      ...edge,
+      type: "relationship",
+
+      data: {
+        offset: 0,
+      },
+
+      markerStart: {
+        type: MarkerType.ArrowClosed,
+      },
+
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+      },
+    });
+
+    processed.add(edge.id);
+    processed.add(reverse.id);
+  }
+
+  // Case 2: Different relationships -> draw both edges separately
+  else if (reverse) {
+    displayEdges.push({
+        ...edge,
+        type: "relationship",
+        data: {
+            offset: -40,
+        },
+    });
+
+    displayEdges.push({
+        ...reverse,
+        type: "relationship",
+        data: {
+            offset: 40,
+        },
+    });
+
+    processed.add(edge.id);
+    processed.add(reverse.id);
+  }
+
+  // Case 3: No reverse edge -> draw normally
+  else {
+    displayEdges.push({
+      ...edge,
+      type: "relationship",
+
+      data: {
+        offset: 0,
+      },
+    });
+    processed.add(edge.id);
+  }
+
+  console.log(displayEdges);
+});
 
   return (
     <div style={{ width: '100vw', height: '100vh'}}>
       <div className="page">
         <Navbar />
-        <Menu nodes={nodes} addMii={addMii} deleteMiis={deleteMiis}/>
+        <Menu nodes={nodes} addMii={addMii} deleteMiis={deleteMiis} connectMiis={connectMiis}/>
       </div>
       <div className="board">
         <ReactFlow
+          edgeTypes={edgeTypes}
           nodes={nodes}
-          edges={edges}
+          edges={displayEdges}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
           fitView
