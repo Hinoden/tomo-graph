@@ -142,10 +142,10 @@ const Menu = ({nodes, edges, addMii, deleteMiis, connectMiis}) => {
                                             <strong style={{ color: edge.style?.stroke, margin: 0, padding: 0 }}>
                                                 {edge.label}
                                             </strong>
-                                            <p style={{ margin: 0, padding: 0 }}> with </p>
-                                            <p style={{ color: otherMii?.data.color, margin: 0, padding: 0 }}>
+                                            <span style={{ margin: 0, padding: 0 }}> with </span>
+                                            <span style={{ color: otherMii?.data.color, margin: 0, padding: 0 }}>
                                                 {otherMii?.data.label}
-                                            </p>
+                                            </span>
                                         </div>
                                     )
                                 })
