@@ -13,7 +13,7 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import '../styles/menu.css';
 import { ReplayTwoTone } from '@mui/icons-material';
 
-const Menu = ({nodes, addMii, deleteMiis, connectMiis}) => {
+const Menu = ({nodes, edges, addMii, deleteMiis, connectMiis}) => {
     const relationshipColors = {
     strangers: 'rgb(0, 132, 255)',
     acquaintances: '#3eb54d',
@@ -28,6 +28,8 @@ const Menu = ({nodes, addMii, deleteMiis, connectMiis}) => {
     };
 
     const [activeMenu, setActiveMenu] = useState(null);
+
+    const [chooseMii, setChooseMii] = useState(null);
 
     const [name, setName] = useState('');
     const [icon, setIcon] = useState(null);
@@ -48,6 +50,17 @@ const Menu = ({nodes, addMii, deleteMiis, connectMiis}) => {
     const [showSpouseStat, setShowSpouseStat] = useState('good');
     const [showFriendStat, setShowFriendStat] = useState('good');
     const [showSweetheartStat, setShowSweetheartStat] = useState('good');
+
+    // const relationships = edges.filter(
+    //     (edge) =>
+    //         chooseMii &&
+    //         (edge.source === chooseMii.id ||
+    //         edge.target === chooseMii.id)
+    // );
+
+    const outgoingRelationships = chooseMii ? edges.filter((edge) => edge.source === chooseMii.id) : [];
+
+    const incomingRelationships = chooseMii ? edges.filter((edge) => edge.target === chooseMii.id) : [];
 
     const toggleMiiSelection = (id) => {
         setSelectedMiis((prev) =>
@@ -87,23 +100,91 @@ const Menu = ({nodes, addMii, deleteMiis, connectMiis}) => {
 
 
 {/* SEE ALL MIIS */}
-        {activeMenu === 'seeAll' && 
-            <div className={`seeAll-content ${activeMenu}`}>
-                <div className="menu-header">
-                    <h2>All Miis</h2>
-                </div>
-                <div className="mii-list">
-                    {nodes.map((node) => (
-                        <div key={node.id} className="mii-card">
-                            <div className="icon-background" style={{ backgroundColor: node.data.color }}>
-                                {node.data.icon}
+        {activeMenu === 'seeAll' &&
+            (!chooseMii ? (
+                <div className={`seeAll-content ${activeMenu}`}>
+                    <div className="menu-header">
+                        <h2>All Miis</h2>
+                    </div>
+                    <div className="mii-list">
+                        {nodes.map((node) => (
+                            <div key={node.id} className="mii-card" onClick={() => setChooseMii(node)}>
+                                <div className="icon-background" style={{ backgroundColor: node.data.color }}>
+                                    {node.data.icon}
+                                </div>
+                                {node.data.label}
                             </div>
-                            {node.data.label}
-                        </div>
-                    ))}
+                        ))}
+                    </div>
+                    <button className="close-button" onClick={() => setActiveMenu(null)}>Done</button>
                 </div>
-                <button className="close-button" onClick={() => setActiveMenu(null)}>Done</button>
-            </div>}
+            ) : (
+                <div className="seeAll-content relationships" style={{ backgroundColor: chooseMii.data.color }}>
+                    <div className="menu-header">
+                        <div className="miiPfp">
+                            {chooseMii.data.icon}
+                        </div>
+                        <h2>{chooseMii.data.label}'s Relationships</h2>
+                    </div>
+                    <div className="relationship-container">
+                        <h3>Outgoing</h3>
+                        <div className="relationship-list">
+                            {outgoingRelationships.length === 0 ? (
+                                <p>No outgoing relationships.</p>
+                            ) : (
+                                outgoingRelationships.map((edge) => {
+                                    const otherMii = nodes.find(
+                                        (node) => node.id === edge.target
+                                    );
+
+                                    return (
+                                        <div key={edge.id} className="relationship-card">
+                                            <strong style={{ color: edge.style?.stroke, margin: 0, padding: 0 }}>
+                                                {edge.label}
+                                            </strong>
+                                            <p style={{ margin: 0, padding: 0 }}> with </p>
+                                            <p style={{ color: otherMii?.data.color, margin: 0, padding: 0 }}>
+                                                {otherMii?.data.label}
+                                            </p>
+                                        </div>
+                                    )
+                                })
+                            )}
+                        </div>
+                        <hr style={{ width: '80%', margin: '20px auto', color: 'black' }} />
+                        <h3>Incoming</h3>
+                        <div className="relationship-list">
+                            {incomingRelationships.length === 0 ? (
+                                <p>No incoming relationships.</p>
+                            ) : (
+                                incomingRelationships.map((edge) => {
+                                    const otherMii = nodes.find(
+                                        (node) => node.id === edge.source
+                                    );
+
+                                    return (
+                                        <div key={edge.id} className="relationship-card">
+                                            <p style={{ color: otherMii?.data.color, margin: 0, padding: 0 }}>
+                                                {otherMii?.data.label}
+                                            </p>
+                                            <p style={{ margin: 0, padding: 0 }}> is </p>
+                                            <strong style={{ color: edge.style?.stroke, margin: 0, padding: 0 }}>
+                                                {edge.label}
+                                            </strong>
+                                            <p style={{ margin: 0, padding: 0 }}> with </p>
+                                            <p style={{ margin: 0, padding: 0 }}>
+                                                {chooseMii.data.label}
+                                            </p>
+                                        </div>
+                                    );
+                                })
+                            )}
+                        </div>
+                    </div>
+                    <button className="back-button" onClick={() => setChooseMii(null)}>Back</button>
+                </div>
+            ))
+        }
 
 
 {/* ADDING MIIS */}

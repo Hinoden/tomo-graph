@@ -202,7 +202,7 @@ edges.forEach((edge) => {
     <div style={{ width: '100vw', height: '100vh'}}>
       <div className="page">
         <Navbar />
-        <Menu nodes={nodes} addMii={addMii} deleteMiis={deleteMiis} connectMiis={connectMiis}/>
+        <Menu nodes={nodes} edges={edges} addMii={addMii} deleteMiis={deleteMiis} connectMiis={connectMiis}/>
       </div>
       <div className="board">
         <ReactFlow

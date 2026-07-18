@@ -78,6 +78,27 @@
     background-color: #ff7373;
 }
 
+.seeAll-content.relationships {
+    background-color: rgb(255, 157, 226);
+}
+
+.relationship-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    text-align: center;
+    overflow-y: auto;
+}
+
+.relationship-list {
+    width: 80%;
+    height: auto;
+    background-color: rgb(226, 226, 226);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
 .add-content.add {
     background-color:rgb(255, 209, 93);
 }
@@ -98,7 +119,15 @@
     margin-bottom: 20px;
 }
 
-.seeAll-content .close-button:hover, .add-content .close-button:hover, .add-content .add-button:hover, .connect-content .back-button:hover, .connect-content .close-button:hover, .delete-content .close-button:hover, .delete-content .delete-button:hover {
+.seeAll-content .back-button {
+    margin-top: auto;
+    font-family: tomofont, sans-serif;
+    font-size: 16px;
+    background-color: rgb(255, 124, 233);
+    margin-bottom: 20px;
+}
+
+.seeAll-content .close-button:hover, .seeAll-content .back-button:hover, .add-content .close-button:hover, .add-content .add-button:hover, .connect-content .back-button:hover, .connect-content .close-button:hover, .delete-content .close-button:hover, .delete-content .delete-button:hover {
     cursor: pointer;
     background-color: rgb(255, 234, 0);
 }
@@ -138,6 +167,23 @@
 .mii-card:hover {
     cursor: pointer;
     transform: scale(1.05);
+}
+
+.miiPfp {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 20px auto;
+}
+
+.miiPfp svg {
+    font-size: 80px;
+    padding: 0;
+    margin: 0;
 }
 
 .add-form {
@@ -427,4 +473,14 @@
 .connect-button.selected {
     background-color: rgb(255, 234, 0);
     border: 3px solid rgb(255, 183, 0);
+}
+
+.relationship-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
