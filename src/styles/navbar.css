@@ -14,6 +14,43 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.popup-overlay {
+    position: absolute;
+
+    top: calc(100% + 10px); /* below the whole button row */
+    right: 0;               /* align with the right side */
+
+    width: 240px;
+    padding: 16px;
+
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.2);
+
+    z-index: 1000;
+}
+
+.reset-group {
+    display: flex;
+    gap: 10px;
+}
+
+.yes-but {
+    background-color: rgb(109, 242, 109);
+}
+
+.yes-but:hover {
+    background-color: rgb(177, 255, 177);
+}
+
+.no-but {
+    background-color: rgb(255, 97, 97);
+}
+
+.no-but:hover {
+    background-color: rgb(255, 159, 159);
+}
+
 .nav-title {
     padding: 0px;
     margin: 0px;

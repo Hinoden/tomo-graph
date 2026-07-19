@@ -9,12 +9,7 @@ import MiiNode from './components/MiiNode.jsx';
 import RelationshipEdge from './components/relationshipEdge.jsx';
 import './App.css';
 
-function App() {
-const nodeTypes = {
-  mii: MiiNode,
-};
-
-const [nodes, setNodes] = useState([   //the miis
+const initialNodes =[   //the miis
   {
     id: '1',
     type: 'mii',
@@ -28,7 +23,14 @@ const [nodes, setNodes] = useState([   //the miis
       color: '#a481f7',
     },
   }
-]);
+];
+
+function App() {
+const nodeTypes = {
+  mii: MiiNode,
+};
+
+const [nodes, setNodes] = useState(initialNodes);
 
 const onNodesChange = (changes) => {
   setNodes((nds) => applyNodeChanges(changes, nds));
@@ -96,27 +98,6 @@ const connectMiis = (source, target, relationship) => {
     return [...prevEdges, newEdge];
   });
 };
-
-// const connectMiis = (source, target, relationship) => {
-//   const newEdge = {
-//     id: `${source}-${target}`,
-//     source,
-//     target,
-    
-//     label: relationship.label,
-
-//     style: {
-//       stroke: relationship.color,
-//       strokeWidth: 3,
-//     },
-
-//     markerEnd: {
-//       type: MarkerType.ArrowClosed,
-//     },
-//   };
-
-//   setEdges((prevEdges) => [...prevEdges, newEdge]);
-// }
 
 const edgeTypes = {
     relationship: RelationshipEdge,
@@ -198,10 +179,29 @@ edges.forEach((edge) => {
   console.log(displayEdges);
 });
 
+const [reactFlowInstance, setReactFlowInstance] = useState(null);
+
+const zoomIn = () => {
+  reactFlowInstance?.zoomIn();
+};
+
+const zoomOut = () => {
+  reactFlowInstance?.zoomOut();
+}
+
+const resetBoard = () => {
+  setNodes(initialNodes);
+  setEdges([]);
+
+  setTimeout(() => {
+    reactFlowInstance?.fitView();
+  }, 0);
+};
+
   return (
     <div style={{ width: '100vw', height: '100vh'}}>
       <div className="page">
-        <Navbar />
+        <Navbar zoomIn={zoomIn} zoomOut={zoomOut} resetBoard={resetBoard} />
         <Menu nodes={nodes} edges={edges} addMii={addMii} deleteMiis={deleteMiis} connectMiis={connectMiis}/>
       </div>
       <div className="board">
@@ -211,6 +211,7 @@ edges.forEach((edge) => {
           edges={displayEdges}
           nodeTypes={nodeTypes}
           onNodesChange={onNodesChange}
+          onInit={setReactFlowInstance}
           fitView
         />
       </div>
