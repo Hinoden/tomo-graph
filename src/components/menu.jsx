@@ -10,8 +10,9 @@ import Face4Icon from '@mui/icons-material/Face4';
 import Face5Icon from '@mui/icons-material/Face5';
 import Face6Icon from '@mui/icons-material/Face6';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import '../styles/menu.css';
 import { ReplayTwoTone } from '@mui/icons-material';
+import iconMap from './iconMap.jsx';
+import '../styles/menu.css';
 
 const Menu = ({nodes, edges, addMii, deleteMiis, connectMiis}) => {
     const relationshipColors = {
@@ -32,7 +33,7 @@ const Menu = ({nodes, edges, addMii, deleteMiis, connectMiis}) => {
     const [chooseMii, setChooseMii] = useState(null);
 
     const [name, setName] = useState('');
-    const [icon, setIcon] = useState(null);
+    const [icon, setIcon] = useState('');
     const [color, setColor] = useState('');
 
     const [selectedIcon, setSelectedIcon] = useState(null);
@@ -80,7 +81,7 @@ const Menu = ({nodes, edges, addMii, deleteMiis, connectMiis}) => {
 
     const resetForm = () => {
         setName('');
-        setIcon(null);
+        setIcon('');
         setColor('');
         
         setSelectedIcon(null);
@@ -107,14 +108,18 @@ const Menu = ({nodes, edges, addMii, deleteMiis, connectMiis}) => {
                         <h2>All Miis</h2>
                     </div>
                     <div className="mii-list">
-                        {nodes.map((node) => (
-                            <div key={node.id} className="mii-card" onClick={() => setChooseMii(node)}>
-                                <div className="icon-background" style={{ backgroundColor: node.data.color }}>
-                                    {node.data.icon}
+                        {nodes.map((node) => {
+                            const Icon = iconMap[node.data.icon];
+
+                            return (
+                                <div key={node.id} className="mii-card" onClick={() => setChooseMii(node)}>
+                                    <div className="icon-background" style={{ backgroundColor: node.data.color }}>
+                                        <Icon />
+                                    </div>
+                                    {node.data.label}
                                 </div>
-                                {node.data.label}
-                            </div>
-                        ))}
+                            );
+                        })}
                     </div>
                     <button className="close-button" onClick={() => setActiveMenu(null)}>Done</button>
                 </div>
@@ -203,33 +208,33 @@ const Menu = ({nodes, edges, addMii, deleteMiis, connectMiis}) => {
                         <div className="icon-options">
                             <div className={`icon-choice ${selectedIcon === 'face1' ? 'selected' : ''}`} onClick={() => {
                                     setSelectedIcon(selectedIcon === 'face1' ? null : 'face1');
-                                    setIcon(<FaceIcon />)}
+                                    setIcon("face1")}
                                 }>
                                     <FaceIcon/>
                             </div>
                             <div className={`icon-choice ${selectedIcon === 'face2' ? 'selected' : ''}`} onClick={() => {
                                 setSelectedIcon(selectedIcon === 'face2' ? null : 'face2');
-                                setIcon(<Face2Icon />)}
+                                setIcon("face2")}
                                 }><Face2Icon/>
                             </div>
                             <div className={`icon-choice ${selectedIcon === 'face3' ? 'selected' : ''}`} onClick={() => {
                                 setSelectedIcon(selectedIcon === 'face3' ? null : 'face3');
-                                setIcon(<Face3Icon />)}
+                                setIcon("face3")}
                                 }><Face3Icon/>
                             </div>
                             <div className={`icon-choice ${selectedIcon === 'face4' ? 'selected' : ''}`} onClick={() => {
                                 setSelectedIcon(selectedIcon === 'face4' ? null : 'face4');
-                                setIcon(<Face4Icon />)}
+                                setIcon("face4")}
                                 }><Face4Icon/>
                             </div>
                             <div className={`icon-choice ${selectedIcon === 'face5' ? 'selected' : ''}`} onClick={() => {
                                 setSelectedIcon(selectedIcon === 'face5' ? null : 'face5');
-                                setIcon(<Face5Icon />)}
+                                setIcon("face5")}
                                 }><Face5Icon/>
                             </div>
                             <div className={`icon-choice ${selectedIcon === 'face6' ? 'selected' : ''}`} onClick={() => {
                                 setSelectedIcon(selectedIcon === 'face6' ? null : 'face6');
-                                setIcon(<Face6Icon />)}
+                                setIcon("face6")}
                                 }><Face6Icon/>
                             </div>
                         </div>
@@ -1405,20 +1410,24 @@ const Menu = ({nodes, edges, addMii, deleteMiis, connectMiis}) => {
                     <h2>Delete Mii</h2>
                 </div>
                 <div className="mii-list">
-                    {nodes.map((node) => (
-                        <div 
-                            key={node.id} 
-                            className={`mii-card ${
-                                selectedMiis.includes(node.id) ? 'selected' : ''
-                            }`}
-                            onClick = {() => toggleMiiSelection(node.id)}
-                        >
-                            <div className="icon-background" style={{ backgroundColor: node.data.color }}>
-                                {node.data.icon}
+                    {nodes.map((node) => {
+                        const Icon = iconMap[node.data.icon];
+                        
+                        return (
+                            <div 
+                                key={node.id} 
+                                className={`mii-card ${
+                                    selectedMiis.includes(node.id) ? 'selected' : ''
+                                }`}
+                                onClick = {() => toggleMiiSelection(node.id)}
+                            >
+                                <div className="icon-background" style={{ backgroundColor: node.data.color }}>
+                                    <Icon />
+                                </div>
+                                {node.data.label}
                             </div>
-                            {node.data.label}
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
                 <div className="button-menu">
                     <button className="delete-button" onClick={() => {deleteMiis(selectedMiis); setSelectedMiis([]);}}>Delete Selected</button>

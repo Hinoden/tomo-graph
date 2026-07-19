@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { MarkerType } from 'reactflow';
 import {ReactFlow, applyNodeChanges}from 'reactflow';
-import FaceIcon from '@mui/icons-material/Face';
 import 'reactflow/dist/style.css';
 import Navbar from './components/navbar.jsx';
 import Menu from './components/menu.jsx';
@@ -19,17 +18,21 @@ const initialNodes =[   //the miis
     },
     data: {
       label: 'Example Mii',
-      icon: <FaceIcon />,
+      icon: 'face1',
       color: '#a481f7',
     },
   }
 ];
 
-function App() {
 const nodeTypes = {
   mii: MiiNode,
 };
 
+const edgeTypes = {
+    relationship: RelationshipEdge,
+};
+
+function App() {
 const [nodes, setNodes] = useState(initialNodes);
 
 const onNodesChange = (changes) => {
@@ -37,6 +40,7 @@ const onNodesChange = (changes) => {
 }
 
 const addMii = (name, icon, color) => {
+  saveHistory();
   const newNode = {
     id: Date.now().toString(),
     type: 'mii',
@@ -55,6 +59,7 @@ const addMii = (name, icon, color) => {
 }
 
 const deleteMiis = (ids) => {
+  saveHistory();
   setNodes((nodes) => 
     nodes.filter((node) => !ids.includes(node.id))
   );
@@ -67,6 +72,7 @@ const deleteMiis = (ids) => {
 const [edges, setEdges] = useState([]);   //the connections between the miis
 
 const connectMiis = (source, target, relationship) => {
+  saveHistory();
   const newEdge = {
     id: `${source}-${target}`,
     source,
@@ -97,10 +103,6 @@ const connectMiis = (source, target, relationship) => {
 
     return [...prevEdges, newEdge];
   });
-};
-
-const edgeTypes = {
-    relationship: RelationshipEdge,
 };
 
 const displayEdges = [];
@@ -179,6 +181,7 @@ edges.forEach((edge) => {
   console.log(displayEdges);
 });
 
+//zoom in and zoom out button
 const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
 const zoomIn = () => {
@@ -189,6 +192,7 @@ const zoomOut = () => {
   reactFlowInstance?.zoomOut();
 }
 
+// reset button
 const resetBoard = () => {
   setNodes(initialNodes);
   setEdges([]);
@@ -198,10 +202,68 @@ const resetBoard = () => {
   }, 0);
 };
 
+// undo/redo buttons!
+const [history, setHistory] = useState([]);
+const [future, setFuture] = useState([]);
+
+const undo = () => {
+  if (history.length === 0){
+    return;
+  }
+
+  const previous = history[history.length - 1];
+
+  setFuture(prev => [
+    {
+      nodes,
+      edges,
+    },
+    ...prev,
+  ]);
+
+  setNodes(previous.nodes);
+  setEdges(previous.edges);
+
+  setHistory(prev => prev.slice(0, -1));
+};
+
+const redo = () => {
+  if (future.length === 0){
+    return;
+  }
+
+  const next = future[0];
+
+  setHistory(prev => [
+    ...prev,
+    {
+      nodes,
+      edges,
+    },
+  ]);
+
+  setNodes(next.nodes);
+  setEdges(next.edges);
+
+  setFuture(prev => prev.slice(1));
+};
+
+const saveHistory = () => {
+  setHistory(prev => [
+    ...prev,
+    {
+      nodes: structuredClone(nodes),
+      edges: structuredClone(edges),
+    },
+  ]);
+
+  setFuture([]);
+}
+
   return (
     <div style={{ width: '100vw', height: '100vh'}}>
       <div className="page">
-        <Navbar zoomIn={zoomIn} zoomOut={zoomOut} resetBoard={resetBoard} />
+        <Navbar zoomIn={zoomIn} zoomOut={zoomOut} resetBoard={resetBoard} undo={undo} redo={redo}/>
         <Menu nodes={nodes} edges={edges} addMii={addMii} deleteMiis={deleteMiis} connectMiis={connectMiis}/>
       </div>
       <div className="board">

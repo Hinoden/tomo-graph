@@ -7,7 +7,7 @@ import RestartAltTwoToneIcon from '@mui/icons-material/RestartAltTwoTone';
 import CameraEnhanceTwoToneIcon from '@mui/icons-material/CameraEnhanceTwoTone';
 import '../styles/navbar.css';
 
-function Navbar({ zoomIn, zoomOut, resetBoard }) {
+function Navbar({ zoomIn, zoomOut, resetBoard, undo, redo }) {
     const [reset, setReset] = useState(false);
 
     return (
@@ -21,8 +21,8 @@ function Navbar({ zoomIn, zoomOut, resetBoard }) {
                 </div>
             </div>
             <div className="right-container">
-                <button className="undo-button"><UndoTwoToneIcon fontSize='large'/></button>
-                <button className="redo-button"><RedoTwoToneIcon fontSize='large'/></button>
+                <button className="undo-button"><UndoTwoToneIcon fontSize='large' onClick={undo}/></button>
+                <button className="redo-button"><RedoTwoToneIcon fontSize='large' onClick={redo}/></button>
                 <button className="reset-button" onClick={() => setReset(true)}><RestartAltTwoToneIcon fontSize='large'/></button>
                 <button className="screenshot-button"><CameraEnhanceTwoToneIcon fontSize='large'/></button>
             </div>
