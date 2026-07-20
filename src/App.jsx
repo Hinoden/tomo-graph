@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { MarkerType } from 'reactflow';
 import {ReactFlow, applyNodeChanges}from 'reactflow';
+import {useRef} from 'react';
+import * as htmlToImage from 'html-to-image';
 import 'reactflow/dist/style.css';
 import Navbar from './components/navbar.jsx';
 import Menu from './components/menu.jsx';
@@ -33,6 +35,8 @@ const edgeTypes = {
 };
 
 function App() {
+const reactFlowWrapper = useRef(null);
+
 const [nodes, setNodes] = useState(initialNodes);
 
 const onNodesChange = (changes) => {
@@ -260,13 +264,51 @@ const saveHistory = () => {
   setFuture([]);
 }
 
+// SCREENSHOT
+const [showScreenshotPopup, setShowScreenshotPopup] = useState(false);
+const [screenshot, setScreenshot] = useState(null);
+
+const takeScreenshot = async () => {
+  try {
+    const dataUrl = await htmlToImage.toPng(document.body, {
+      backgroundColor: "white",
+
+      filter: (node) => {
+        return !(
+          node.classList?.contains("page") ||
+          node.classList?.contains("navbar") ||
+          node.classList?.contains("menu")
+        );
+      },
+    });
+
+    setScreenshot(dataUrl);
+    setShowScreenshotPopup(true);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const downloadScreenshot = () => {
+  if (!screenshot){
+    return;
+  }
+
+  const link = document.createElement("a");
+  link.download = "tomograph-chart.png";
+  link.href = screenshot;
+  link.click();
+
+  setShowScreenshotPopup(false);
+}
+
   return (
     <div style={{ width: '100vw', height: '100vh'}}>
       <div className="page">
-        <Navbar zoomIn={zoomIn} zoomOut={zoomOut} resetBoard={resetBoard} undo={undo} redo={redo}/>
+        <Navbar zoomIn={zoomIn} zoomOut={zoomOut} resetBoard={resetBoard} undo={undo} redo={redo} takeScreenshot={takeScreenshot}/>
         <Menu nodes={nodes} edges={edges} addMii={addMii} deleteMiis={deleteMiis} connectMiis={connectMiis}/>
       </div>
-      <div className="board">
+      <div className="board" ref={reactFlowWrapper}>
         <ReactFlow
           edgeTypes={edgeTypes}
           nodes={nodes}
@@ -277,6 +319,24 @@ const saveHistory = () => {
           fitView
         />
       </div>
+      {showScreenshotPopup && (
+        <div className="popup-overlay1">
+          <div className="popup-container">
+            <h2>Preview Screenshot</h2>
+            <p>This is how your relationship map will be saved.</p>
+            <div className="screenshot-image">
+              <img src={screenshot} alt="Relationship Map Preview" className="screenshot-preview" />
+            </div>
+            <div className="screenshot-but">
+              <button className="screenshot-yes" onClick={downloadScreenshot}>Download</button>
+              <button className="screenshot-no" onClick={() => {
+                setShowScreenshotPopup(false);
+                setScreenshot(null);
+              }}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

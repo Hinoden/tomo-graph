@@ -25,3 +25,62 @@ body {
   right: 20px;
   z-index: 1000;
 }
+
+.popup-overlay1 {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.4);
+
+    z-index: 1000;
+}
+
+.popup-container {
+    width: 60vw;
+    height: 60vh;
+
+    background: rgb(255, 251, 132);
+    border-radius: 12px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.screenshot-preview {
+  width: 100%;
+  max-height: 30vh;
+
+  object-fit: contain;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  margin: 20px 0;
+}
+
+.screenshot-but {
+  display: flex;
+  gap: 10px;
+}
+
+.screenshot-yes {
+  background-color: rgb(109, 242, 109);
+}
+
+.screenshot-yes:hover {
+    background-color: rgb(177, 255, 177);
+}
+
+.screenshot-no {
+  background-color: rgb(255, 97, 97);
+}
+
+.screenshot-no:hover {
+    background-color: rgb(255, 159, 159);
+}
