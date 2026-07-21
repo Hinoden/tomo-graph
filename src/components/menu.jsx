@@ -10,11 +10,13 @@ import Face4Icon from '@mui/icons-material/Face4';
 import Face5Icon from '@mui/icons-material/Face5';
 import Face6Icon from '@mui/icons-material/Face6';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { ReplayTwoTone } from '@mui/icons-material';
 import iconMap from './iconMap.jsx';
 import '../styles/menu.css';
 
-const Menu = ({nodes, edges, addMii, deleteMiis, connectMiis}) => {
+const Menu = ({nodes, edges, activeMenu, setActiveMenu, chooseMii, setChooseMii, editMii, deleteRelationship, addMii, deleteMiis, connectMiis}) => {
     const relationshipColors = {
     strangers: 'rgb(0, 132, 255)',
     acquaintances: '#3eb54d',
@@ -28,13 +30,15 @@ const Menu = ({nodes, edges, addMii, deleteMiis, connectMiis}) => {
     exlove: 'rgb(164, 71, 244)',
     };
 
-    const [activeMenu, setActiveMenu] = useState(null);
-
-    const [chooseMii, setChooseMii] = useState(null);
+    const ChosenIcon = chooseMii ? iconMap[chooseMii.data.icon] : null;
 
     const [name, setName] = useState('');
     const [icon, setIcon] = useState('');
     const [color, setColor] = useState('');
+
+    const [showEditPage, setShowEditPage] = useState(false);
+    const [selectedEditName, setSelectedEditName] = useState('');
+    const [selectedEditIcon, setSelectedEditIcon] = useState(null);
 
     const [selectedIcon, setSelectedIcon] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
@@ -123,72 +127,181 @@ const Menu = ({nodes, edges, addMii, deleteMiis, connectMiis}) => {
                     </div>
                     <button className="close-button" onClick={() => setActiveMenu(null)}>Done</button>
                 </div>
-            ) : (
-                <div className="seeAll-content relationships" style={{ backgroundColor: chooseMii.data.color }}>
-                    <div className="menu-header">
-                        <div className="miiPfp">
-                            {chooseMii.data.icon}
+            ) : !showEditPage ? (
+                    <div className="seeAll-content relationships" style={{ backgroundColor: chooseMii.data.color }}>
+                        <div className="menu-header">
+                            <button className="editIcon" onClick={() => {
+                                setSelectedEditName(chooseMii.data.label);
+                                setSelectedEditIcon(chooseMii.data.icon);
+                                setShowEditPage(true);
+                                }}>
+                                    <EditIcon />
+                            </button>
+                            <div className="miiPfp">
+                                {ChosenIcon && <ChosenIcon />}
+                            </div>
+                            <h2>{chooseMii.data.label}'s Relationships</h2>
                         </div>
-                        <h2>{chooseMii.data.label}'s Relationships</h2>
+                        <div className="relationship-container">
+                            <h3>Outgoing</h3>
+                            <div className="relationship-list">
+                                {outgoingRelationships.length === 0 ? (
+                                    <p>No outgoing relationships.</p>
+                                ) : (
+                                    outgoingRelationships.map((edge) => {
+                                        const otherMii = nodes.find(
+                                            (node) => node.id === edge.target
+                                        );
+
+                                        return (
+                                            <div key={edge.id} className="relationship-card">
+                                                <strong style={{ color: edge.style?.stroke, margin: 0, padding: 0 }}>
+                                                    {edge.label}
+                                                </strong>
+                                                <span style={{ margin: 0, padding: 0 }}> with </span>
+                                                <span style={{ color: otherMii?.data.color, margin: 0, padding: 0 }}>
+                                                    {otherMii?.data.label}
+                                                </span>
+                                            </div>
+                                        )
+                                    })
+                                )}
+                            </div>
+                            <hr style={{ width: '80%', margin: '20px auto', color: 'black' }} />
+                            <h3>Incoming</h3>
+                            <div className="relationship-list">
+                                {incomingRelationships.length === 0 ? (
+                                    <p>No incoming relationships.</p>
+                                ) : (
+                                    incomingRelationships.map((edge) => {
+                                        const otherMii = nodes.find(
+                                            (node) => node.id === edge.source
+                                        );
+
+                                        return (
+                                            <div key={edge.id} className="relationship-card">
+                                                <p style={{ color: otherMii?.data.color, margin: 0, padding: 0 }}>
+                                                    {otherMii?.data.label}
+                                                </p>
+                                                <p style={{ margin: 0, padding: 0 }}> is </p>
+                                                <strong style={{ color: edge.style?.stroke, margin: 0, padding: 0 }}>
+                                                    {edge.label}
+                                                </strong>
+                                                <p style={{ margin: 0, padding: 0 }}> with </p>
+                                                <p style={{ margin: 0, padding: 0 }}>
+                                                    {chooseMii.data.label}
+                                                </p>
+                                            </div>
+                                        );
+                                    })
+                                )}
+                            </div>
+                        </div>
+                        <button className="back-button" onClick={() => setChooseMii(null)}>Back</button>
                     </div>
-                    <div className="relationship-container">
-                        <h3>Outgoing</h3>
-                        <div className="relationship-list">
-                            {outgoingRelationships.length === 0 ? (
-                                <p>No outgoing relationships.</p>
-                            ) : (
-                                outgoingRelationships.map((edge) => {
-                                    const otherMii = nodes.find(
-                                        (node) => node.id === edge.target
+                ) : (
+                    //edit page
+                    <div className="seeAll-content edit" style={{ backgroundColor: chooseMii.data.color }}>
+                        <button className="edit-back-but" onClick={() => {
+                            setSelectedEditName("");
+                            setSelectedEditIcon('');
+                            setShowEditPage(false);
+                            }}>Back</button>
+
+                        <div className="edit-container">
+                            <div className="edit-header">
+                                <div className="miiPfp">
+                                    {ChosenIcon && <ChosenIcon />}
+                                </div>
+                            </div>
+
+                            <div className="name-edit">
+                                <h3 className="edit-name-title">Name</h3>
+                                <input className="edit-input" placeholder={chooseMii.data.label} value={selectedEditName} onChange={(e) => setSelectedEditName(e.target.value)}></input>
+                            </div>
+                            <div className="icon-edit">
+                                <h3>Icon</h3>
+                                <div className="icon-list">
+                                    <div className={`edit-icon-choice ${selectedEditIcon === 'face1' ? 'selected' : ''}`}
+                                    onClick={() => setSelectedEditIcon('face1')}>
+                                        <FaceIcon />
+                                    </div>
+                                    <div className={`edit-icon-choice ${selectedEditIcon === 'face2' ? 'selected' : ''}`}
+                                    onClick={() => setSelectedEditIcon('face2')}>
+                                        <Face2Icon />
+                                    </div>
+                                    <div className={`edit-icon-choice ${selectedEditIcon === 'face3' ? 'selected' : ''}`}
+                                    onClick={() => setSelectedEditIcon('face3')}>
+                                        <Face3Icon />
+                                    </div>
+                                    <div className={`edit-icon-choice ${selectedEditIcon === 'face4' ? 'selected' : ''}`}
+                                    onClick={() => setSelectedEditIcon('face4')}>
+                                        <Face4Icon />
+                                    </div>
+                                    <div className={`edit-icon-choice ${selectedEditIcon === 'face5' ? 'selected' : ''}`}
+                                    onClick={() => setSelectedEditIcon('face5')}>
+                                        <Face5Icon />
+                                    </div>
+                                    <div className={`edit-icon-choice ${selectedEditIcon === 'face6' ? 'selected' : ''}`}
+                                    onClick={() => setSelectedEditIcon('face6')}>
+                                        <Face6Icon />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="relationship-edit">
+                                <h3>Relationships</h3>
+                                <div className="relationship-list">
+                                    {outgoingRelationships.length === 0 ? (
+                                        <p>No outgoing relationships.</p>
+                                    ) : (
+                                        outgoingRelationships.map((edge) => {
+                                            const otherMii = nodes.find(
+                                                (node) => node.id === edge.target
+                                            );
+
+                                            return (
+                                                <div key={edge.id} className="relationship-card">
+                                                    <strong style={{ color: edge.style?.stroke, margin: 0, padding: 0 }}>
+                                                        {edge.label}
+                                                    </strong>
+                                                    <span style={{ margin: 0, padding: 0 }}> with </span>
+                                                    <span style={{ color: otherMii?.data.color, margin: 0, padding: 0 }}>
+                                                        {otherMii?.data.label}
+                                                    </span>
+                                                    <span className="edit-delete-rel" onClick={() => deleteRelationship(edge.id)}><DeleteIcon /></span>
+                                                </div>
+                                            )
+                                        })
+                                    )}
+                                </div>
+                            </div>
+                            <div className="edit-save-but">
+                                <button className="edit-save"
+                                onClick={() => {
+                                    editMii(
+                                        chooseMii.id,
+                                        selectedEditName || chooseMii.data.label,
+                                        selectedEditIcon || chooseMii.data.icon
                                     );
 
-                                    return (
-                                        <div key={edge.id} className="relationship-card">
-                                            <strong style={{ color: edge.style?.stroke, margin: 0, padding: 0 }}>
-                                                {edge.label}
-                                            </strong>
-                                            <span style={{ margin: 0, padding: 0 }}> with </span>
-                                            <span style={{ color: otherMii?.data.color, margin: 0, padding: 0 }}>
-                                                {otherMii?.data.label}
-                                            </span>
-                                        </div>
-                                    )
-                                })
-                            )}
-                        </div>
-                        <hr style={{ width: '80%', margin: '20px auto', color: 'black' }} />
-                        <h3>Incoming</h3>
-                        <div className="relationship-list">
-                            {incomingRelationships.length === 0 ? (
-                                <p>No incoming relationships.</p>
-                            ) : (
-                                incomingRelationships.map((edge) => {
-                                    const otherMii = nodes.find(
-                                        (node) => node.id === edge.source
-                                    );
+                                    setChooseMii(prev => ({
+                                        ...prev,
+                                        data: {
+                                            ...prev.data,
+                                            label: selectedEditName || prev.data.label,
+                                            icon: selectedEditIcon || prev.data.icon,
+                                        }
+                                    }));
 
-                                    return (
-                                        <div key={edge.id} className="relationship-card">
-                                            <p style={{ color: otherMii?.data.color, margin: 0, padding: 0 }}>
-                                                {otherMii?.data.label}
-                                            </p>
-                                            <p style={{ margin: 0, padding: 0 }}> is </p>
-                                            <strong style={{ color: edge.style?.stroke, margin: 0, padding: 0 }}>
-                                                {edge.label}
-                                            </strong>
-                                            <p style={{ margin: 0, padding: 0 }}> with </p>
-                                            <p style={{ margin: 0, padding: 0 }}>
-                                                {chooseMii.data.label}
-                                            </p>
-                                        </div>
-                                    );
-                                })
-                            )}
+                                    setSelectedEditName("");
+                                    setSelectedEditIcon("");
+                                    setShowEditPage(false);
+                                }}>Save</button>
+                            </div>
                         </div>
                     </div>
-                    <button className="back-button" onClick={() => setChooseMii(null)}>Back</button>
-                </div>
-            ))
+                )
+            )
         }
 
 

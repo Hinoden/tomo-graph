@@ -43,6 +43,14 @@ const onNodesChange = (changes) => {
   setNodes((nds) => applyNodeChanges(changes, nds));
 }
 
+const [activeMenu, setActiveMenu] = useState(null);
+const [chooseMii, setChooseMii] = useState(null);
+
+const handleNodeClick = (_, node) => {
+  setChooseMii(node);
+  setActiveMenu("seeAll");
+};
+
 const addMii = (name, icon, color) => {
   saveHistory();
   const newNode = {
@@ -302,11 +310,41 @@ const downloadScreenshot = () => {
   setShowScreenshotPopup(false);
 }
 
+//edit page
+const editMii = (id, newName, newIcon) => {
+  saveHistory();
+
+  setNodes(prev => 
+    prev.map(node => {
+      if (node.id !== id) {
+        return node;
+      }
+
+      return {
+        ...node,
+        data: {
+          ...node.data,
+          label: newName,
+          icon: newIcon,
+        },
+      };
+    })
+  );
+};
+
+const deleteRelationship = (edgeId) => {
+  saveHistory();
+
+  setEdges(prev =>
+    prev.filter(edge => edge.id !== edgeId)
+  );
+};
+
   return (
     <div style={{ width: '100vw', height: '100vh'}}>
       <div className="page">
         <Navbar zoomIn={zoomIn} zoomOut={zoomOut} resetBoard={resetBoard} undo={undo} redo={redo} takeScreenshot={takeScreenshot}/>
-        <Menu nodes={nodes} edges={edges} addMii={addMii} deleteMiis={deleteMiis} connectMiis={connectMiis}/>
+        <Menu nodes={nodes} edges={edges} activeMenu={activeMenu} setActiveMenu={setActiveMenu} chooseMii={chooseMii} setChooseMii={setChooseMii} editMii={editMii} deleteRelationship={deleteRelationship} addMii={addMii} deleteMiis={deleteMiis} connectMiis={connectMiis}/>
       </div>
       <div className="board" ref={reactFlowWrapper}>
         <ReactFlow
@@ -314,6 +352,7 @@ const downloadScreenshot = () => {
           nodes={nodes}
           edges={displayEdges}
           nodeTypes={nodeTypes}
+          onNodeClick={handleNodeClick}
           onNodesChange={onNodesChange}
           onInit={setReactFlowInstance}
           fitView

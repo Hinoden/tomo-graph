@@ -1,4 +1,4 @@
-import React from 'react';
+import {React, useState} from 'react';
 import {Handle, Position} from 'reactflow';
 import iconMap from './iconMap.jsx';
 import '../styles/MiiNode.css';
