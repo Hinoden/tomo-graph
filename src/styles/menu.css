@@ -246,10 +246,21 @@
     font-size: 40px;
 }
 
+.edit-icon-choice:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
 .edit-icon-choice.selected {
     background-color: rgb(255, 234, 0);
     border-radius: 50%;
     border: 3px solid rgb(255, 183, 0);
+}
+
+.color-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
 }
 
 .edit-back-but {

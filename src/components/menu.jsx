@@ -39,6 +39,7 @@ const Menu = ({nodes, edges, activeMenu, setActiveMenu, chooseMii, setChooseMii,
     const [showEditPage, setShowEditPage] = useState(false);
     const [selectedEditName, setSelectedEditName] = useState('');
     const [selectedEditIcon, setSelectedEditIcon] = useState(null);
+    const [selectedEditColor, setSelectedEditColor] = useState(null);
 
     const [selectedIcon, setSelectedIcon] = useState(null);
     const [selectedColor, setSelectedColor] = useState(null);
@@ -133,6 +134,7 @@ const Menu = ({nodes, edges, activeMenu, setActiveMenu, chooseMii, setChooseMii,
                             <button className="editIcon" onClick={() => {
                                 setSelectedEditName(chooseMii.data.label);
                                 setSelectedEditIcon(chooseMii.data.icon);
+                                setSelectedEditColor(chooseMii.data.color);
                                 setShowEditPage(true);
                                 }}>
                                     <EditIcon />
@@ -248,6 +250,76 @@ const Menu = ({nodes, edges, activeMenu, setActiveMenu, chooseMii, setChooseMii,
                                     </div>
                                 </div>
                             </div>
+                            <div className="color-edit">
+                                <h3>Color</h3>
+                                <div className="color-list">
+                                    <div className={`color-choice ${selectedEditColor === '#ffe1a1' ? 'selected' : ''}`} style={{ backgroundColor: '#ffe1a1' }}
+                                    onClick={() => setSelectedEditColor('#ffe1a1')}>
+                                        Softie (Sweetie)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#fef140' ? 'selected' : ''}`} style={{ backgroundColor: '#fef140' }}
+                                    onClick={() => setSelectedEditColor('#fef140')}>
+                                        Optimist (Cheerleader)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#fe9dbe' ? 'selected' : ''}`} style={{ backgroundColor: '#fe9dbe' }}
+                                    onClick={() => setSelectedEditColor('#fe9dbe')}>
+                                        Charmer
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#f9555c' ? 'selected' : ''}`} style={{ backgroundColor: '#f9555c' }}
+                                    onClick={() => setSelectedEditColor('#f9555c')}>
+                                        Adventurer (Go-Getter)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#fed74b' ? 'selected' : ''}`} style={{ backgroundColor: '#fed74b' }}
+                                    onClick={() => setSelectedEditColor('#fed74b')}>
+                                        Carer (Buddy)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#ffc26f' ? 'selected' : ''}`} style={{ backgroundColor: '#ffc26f' }}
+                                    onClick={() => setSelectedEditColor('#ffc26f')}>
+                                        Dreamer (Daydreamer)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#ff8c79' ? 'selected' : ''}`} style={{ backgroundColor: '#ff8c79' }}
+                                    onClick={() => setSelectedEditColor('#ff8c79')}>
+                                        Bubbly (Merrymaker)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#fa7940' ? 'selected' : ''}`} style={{ backgroundColor: '#fa7940' }}
+                                    onClick={() => setSelectedEditColor('#fa7940')}>
+                                        Hotblooded (Dynamo)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#9ddc5a' ? 'selected' : ''}`} style={{ backgroundColor: '#9ddc5a' }}
+                                    onClick={() =>
+                                        setSelectedEditColor('#9ddc5a')}>
+                                        Patient (Strategist)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#00cea2' ? 'selected' : ''}`} style={{ backgroundColor: '#00cea2' }}
+                                    onClick={() => setSelectedEditColor('#00cea2')}>
+                                        Perfectionist
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#78def4' ? 'selected' : ''}`} style={{ backgroundColor: '#78def4' }}
+                                    onClick={() => setSelectedEditColor('#78def4')}>
+                                        Busy Bee (Achiever)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#40a5f7' ? 'selected' : ''}`} style={{ backgroundColor: '#40a5f7' }}
+                                    onClick={() => setSelectedEditColor('#40a5f7')}>
+                                        Leader (Visionary)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#409695' ? 'selected' : ''}`} style={{ backgroundColor: '#409695' }}
+                                    onClick={() => setSelectedEditColor('#409695')}>
+                                        Introvert (Observer)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#26ae62' ? 'selected' : ''}`} style={{ backgroundColor: '#26ae62' }}
+                                    onClick={() => setSelectedEditColor('#26ae62')}>
+                                        Thinker
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#6c7af5' ? 'selected' : ''}`} style={{ backgroundColor: '#6c7af5' }}
+                                    onClick={() => setSelectedEditColor('#6c7af5')}>
+                                        Individualist (Rouge)
+                                    </div>
+                                    <div className={`color-choice ${selectedEditColor === '#a481f7' ? 'selected' : ''}`} style={{ backgroundColor: '#a481f7' }}
+                                    onClick={() => setSelectedEditColor('#a481f7')}>
+                                        Headstrong (Maverick)
+                                    </div>
+                                </div>
+                            </div>
                             <div className="relationship-edit">
                                 <h3>Relationships</h3>
                                 <div className="relationship-list">
@@ -281,7 +353,8 @@ const Menu = ({nodes, edges, activeMenu, setActiveMenu, chooseMii, setChooseMii,
                                     editMii(
                                         chooseMii.id,
                                         selectedEditName || chooseMii.data.label,
-                                        selectedEditIcon || chooseMii.data.icon
+                                        selectedEditIcon || chooseMii.data.icon,
+                                        selectedEditColor || chooseMii.data.color
                                     );
 
                                     setChooseMii(prev => ({
@@ -290,11 +363,13 @@ const Menu = ({nodes, edges, activeMenu, setActiveMenu, chooseMii, setChooseMii,
                                             ...prev.data,
                                             label: selectedEditName || prev.data.label,
                                             icon: selectedEditIcon || prev.data.icon,
+                                            color: selectedEditColor || prev.data.color,
                                         }
                                     }));
 
                                     setSelectedEditName("");
                                     setSelectedEditIcon("");
+                                    setSelectedEditColor("");
                                     setShowEditPage(false);
                                 }}>Save</button>
                             </div>

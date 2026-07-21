@@ -311,7 +311,7 @@ const downloadScreenshot = () => {
 }
 
 //edit page
-const editMii = (id, newName, newIcon) => {
+const editMii = (id, newName, newIcon, newColor) => {
   saveHistory();
 
   setNodes(prev => 
@@ -326,6 +326,7 @@ const editMii = (id, newName, newIcon) => {
           ...node.data,
           label: newName,
           icon: newIcon,
+          color: newColor,
         },
       };
     })
